@@ -1,7 +1,7 @@
 [project]
-name = "llm-shadow-audit"
+name = "model-gateway-tester"
 version = "0.1.0"
-description = "Short-cycle black-box shadow auditing for third-party LLM gateways."
+description = "A simple tool for comparing model gateways with dynamic private benchmarks and short-cycle shadow audits."
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
@@ -16,7 +16,7 @@ classifiers = [
 ]
 
 [project.scripts]
-llm-shadow-audit = "llm_shadow_audit:main"
+model-gateway-tester = "llm_shadow_audit:main"
 
 [build-system]
 requires = ["setuptools>=68"]

@@ -1,59 +1,78 @@
-# LLM Shadow Audit
+# Model Gateway Tester
 
-`LLM Shadow Audit` is a lightweight black-box auditing tool for comparing third-party LLM gateways against a chosen baseline using dynamic private benchmarks and short-cycle shadow evaluation.
+Compare model gateways the simple way.
 
-It is designed for questions like:
+`Model Gateway Tester` helps you test whether different AI providers and third-party routes are:
 
-- Is a gateway really serving the model it claims?
-- Does a provider silently degrade quality under load?
-- Which route is better for reasoning-heavy workloads?
-- How do providers differ on completion rate, latency, and reasoning-token behavior?
+- strong enough
+- stable enough
+- fast enough
+- really acting like the model they claim to serve
 
-## What It Does
+It is built for people who want a practical answer to questions like:
 
-- Generates dynamic private benchmark tasks by default
-- Supports short-cycle shadow audit using your own prompt files
-- Compares multiple providers under the same output budget
-- Records completion rate, accuracy, latency, and reasoning-token distributions
-- Produces a JSON report with per-family breakdowns and comparison metrics
+- "Is this third-party GPT route actually good?"
+- "Does this provider get worse under pressure?"
+- "Which route should I use for reasoning-heavy work?"
+- "Why does one gateway feel smarter than another?"
 
-## Current Provider Support
+## What This Project Does
 
-- OpenRouter Responses API
-- Longent Responses-compatible gateway
-- Fireworks Responses-compatible route
+- generates fresh private benchmark questions by default
+- supports short-cycle shadow audit with your own prompt samples
+- compares providers under the same output budget
+- tracks completion rate, accuracy, latency, and reasoning-token behavior
+- writes a machine-readable JSON report you can inspect or compare later
 
-## Why This Exists
+## Why It Is Useful
 
-Public benchmark questions are easy for providers to overfit or recognize.
+Public benchmark questions are easy for providers to overfit, recognize, or route around.
 
-This project instead focuses on:
+This project focuses on tougher-to-fake evaluation:
 
-- Hidden dynamic tasks
-- Reproducible seeds when you want them
-- Repeated black-box comparisons
-- Distribution-level signals rather than single anecdotal prompts
+- private dynamic tasks
+- reproducible runs when you want them
+- side-by-side route comparisons
+- output behavior, not just one lucky answer
 
-## Installation
+## Features
+
+- Dynamic private benchmark generation
+- Hard-mode task families for reasoning-heavy checks
+- Shadow audit mode using your own prompts
+- Support for OpenRouter, Longent, and Fireworks-style routes
+- Fresh random seed by default on every run
+- Optional fixed seed for exact reproduction
+
+## Supported Input Modes
+
+1. Dynamic audit
+This generates fresh hidden questions every run.
+
+2. Shadow audit
+This uses your own prompts from:
+
+- `.jsonl`
+- `.json`
+- `.txt`
+- `.md`
+
+## Quick Start
 
 Python 3.11+ is recommended.
-
-No third-party Python dependencies are required.
 
 ```bash
 python3 -m py_compile llm_shadow_audit.py
 ```
 
-## Basic Usage
-
-Run a default hard audit with fresh randomized questions every time:
+Run a default hard audit:
 
 ```bash
 python3 llm_shadow_audit.py \
   --openrouter-key "YOUR_OPENROUTER_KEY"
 ```
 
-Add Fireworks:
+Run a multi-provider comparison:
 
 ```bash
 python3 llm_shadow_audit.py \
@@ -61,7 +80,7 @@ python3 llm_shadow_audit.py \
   --fireworks-key "YOUR_FIREWORKS_KEY"
 ```
 
-Override Longent model:
+Override the Longent route:
 
 ```bash
 python3 llm_shadow_audit.py \
@@ -69,7 +88,7 @@ python3 llm_shadow_audit.py \
   --longent-model "gpt-5.4(xhigh)"
 ```
 
-Reproduce the exact same benchmark set:
+Reproduce a previous run exactly:
 
 ```bash
 python3 llm_shadow_audit.py \
@@ -77,9 +96,9 @@ python3 llm_shadow_audit.py \
   --openrouter-key "YOUR_OPENROUTER_KEY"
 ```
 
-## Shadow Audit Mode
+## Shadow Audit Example
 
-You can feed your own real or semi-real prompts:
+Use your own prompt sample file:
 
 ```bash
 python3 llm_shadow_audit.py \
@@ -89,14 +108,7 @@ python3 llm_shadow_audit.py \
   --tasks-per-family 0
 ```
 
-Supported prompt file formats:
-
-- `.jsonl`
-- `.json`
-- `.txt`
-- `.md`
-
-Example JSONL rows:
+Example `jsonl` lines:
 
 ```json
 {"id":"p1","prompt":"Summarize this article"}
@@ -104,33 +116,46 @@ Example JSONL rows:
 {"id":"p3","prompt":"Return strict minified JSON","expected":"{\"ok\":true}"}
 ```
 
-## Default Behavior
+## Defaults
 
-Current defaults are tuned for stronger audits:
+The current defaults are tuned for stronger audits:
 
 - `difficulty=hard`
 - `tasks_per_family=10`
 - `max_output_tokens=1024`
-- fresh random seed per run unless `--seed` is provided
+- fresh random seed every run unless you pass `--seed`
 
-## Output
+## Output Report
 
-Reports are written to a timestamped JSON file by default.
+Each run writes a JSON report.
 
 The report includes:
 
-- summary metrics per provider
-- family-by-family breakdown
+- per-provider summary
+- per-family breakdown
 - row-level results
-- comparison metrics against the baseline provider
+- comparison metrics versus the baseline provider
 
-Prompt text is not included unless you pass `--include-prompt-text`.
+Prompt text is excluded by default. Only prompt hashes are stored unless you explicitly enable prompt capture.
 
 ## Security Notes
 
-- Do not commit API keys
-- Prefer passing keys by CLI flag from a secure local environment
-- For private real prompts, keep `--include-prompt-text` off unless you explicitly need raw prompt capture
+- never commit API keys
+- pass keys via CLI flags or your own secure local setup
+- keep `--include-prompt-text` off unless you truly need raw prompt storage
+
+## Chinese Summary
+
+`Model Gateway Tester` 是一个用来比较模型网关质量的工具。
+
+它的作用是：
+
+- 测第三方模型路线强不强
+- 测它稳不稳
+- 测它快不快
+- 测它到底像不像它宣称的那个模型
+
+它不是模型本身，而是一个“模型网关测试器”。
 
 ## License
 
