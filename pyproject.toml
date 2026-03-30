@@ -1,0 +1,23 @@
+[project]
+name = "llm-shadow-audit"
+version = "0.1.0"
+description = "Short-cycle black-box shadow auditing for third-party LLM gateways."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [
+  { name = "GravityPoet" }
+]
+keywords = ["llm", "audit", "benchmark", "gateway", "shadow-audit", "reasoning"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent"
+]
+
+[project.scripts]
+llm-shadow-audit = "llm_shadow_audit:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
