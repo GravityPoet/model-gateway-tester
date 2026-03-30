@@ -11,6 +11,8 @@ Compare AI model gateways in the most direct way:
 
 `Model Gateway Tester` is a practical testing tool for comparing model gateways side by side with hidden dynamic tasks and short-cycle shadow audit runs.
 
+It is also built for one very practical purpose: checking whether a third-party model gateway is quietly swapping models, lowering quality, cheating, or misleading users.
+
 ## What It Does
 
 - generates fresh private benchmark questions by default
@@ -167,6 +169,7 @@ Prompt text is excluded by default. Only prompt hashes are stored unless you exp
 - 看它稳不稳、快不快
 - 看它到底像不像它宣称的那个模型
 - 用同一批隐藏题，把不同网关放在同一张表里比较
+- 检查第三方中转 API 有没有偷偷换模型、降配、挂羊头卖狗肉，或者欺骗用户
 
 一句话：
 
