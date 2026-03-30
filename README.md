@@ -1,61 +1,47 @@
+![Model Gateway Tester banner](assets/banner.svg)
+
 # Model Gateway Tester
 
-Compare model gateways the simple way.
+Compare AI model gateways in the most direct way:
 
-`Model Gateway Tester` helps you test whether different AI providers and third-party routes are:
+- Which route is stronger?
+- Which route is faster?
+- Which route is more stable?
+- Which route really behaves like the model it claims to serve?
 
-- strong enough
-- stable enough
-- fast enough
-- really acting like the model they claim to serve
+`Model Gateway Tester` is a practical testing tool for comparing model gateways side by side with hidden dynamic tasks and short-cycle shadow audit runs.
 
-It is built for people who want a practical answer to questions like:
-
-- "Is this third-party GPT route actually good?"
-- "Does this provider get worse under pressure?"
-- "Which route should I use for reasoning-heavy work?"
-- "Why does one gateway feel smarter than another?"
-
-## What This Project Does
+## What It Does
 
 - generates fresh private benchmark questions by default
-- supports short-cycle shadow audit with your own prompt samples
-- compares providers under the same output budget
+- compares multiple providers under the same output budget
+- supports short-cycle shadow audit using your own prompts
 - tracks completion rate, accuracy, latency, and reasoning-token behavior
-- writes a machine-readable JSON report you can inspect or compare later
+- writes a JSON report for later comparison
 
-## Why It Is Useful
+## Why This Exists
 
-Public benchmark questions are easy for providers to overfit, recognize, or route around.
+Public benchmark questions are easy to recognize.
 
-This project focuses on tougher-to-fake evaluation:
+This project focuses on harder-to-fake evaluation:
 
-- private dynamic tasks
-- reproducible runs when you want them
-- side-by-side route comparisons
+- hidden dynamic tasks
+- random fresh seeds by default
+- side-by-side route comparison
 - output behavior, not just one lucky answer
 
-## Features
+## Good For
 
-- Dynamic private benchmark generation
-- Hard-mode task families for reasoning-heavy checks
-- Shadow audit mode using your own prompts
-- Support for OpenRouter, Longent, and Fireworks-style routes
-- Fresh random seed by default on every run
-- Optional fixed seed for exact reproduction
+- comparing OpenRouter vs Longent vs Fireworks
+- checking whether a third-party route feels weaker than expected
+- testing whether a provider becomes unstable under harder reasoning tasks
+- deciding which route should be your default production choice
 
-## Supported Input Modes
+## Current Support
 
-1. Dynamic audit
-This generates fresh hidden questions every run.
-
-2. Shadow audit
-This uses your own prompts from:
-
-- `.jsonl`
-- `.json`
-- `.txt`
-- `.md`
+- OpenRouter Responses API
+- Longent Responses-compatible gateway
+- Fireworks Responses-compatible route
 
 ## Quick Start
 
@@ -72,7 +58,7 @@ python3 llm_shadow_audit.py \
   --openrouter-key "YOUR_OPENROUTER_KEY"
 ```
 
-Run a multi-provider comparison:
+Run a three-way comparison:
 
 ```bash
 python3 llm_shadow_audit.py \
@@ -85,10 +71,11 @@ Override the Longent route:
 ```bash
 python3 llm_shadow_audit.py \
   --openrouter-key "YOUR_OPENROUTER_KEY" \
+  --fireworks-key "YOUR_FIREWORKS_KEY" \
   --longent-model "gpt-5.4(xhigh)"
 ```
 
-Reproduce a previous run exactly:
+Reproduce the same benchmark set:
 
 ```bash
 python3 llm_shadow_audit.py \
@@ -96,9 +83,28 @@ python3 llm_shadow_audit.py \
   --openrouter-key "YOUR_OPENROUTER_KEY"
 ```
 
-## Shadow Audit Example
+## Example: Compare Three Routes
 
-Use your own prompt sample file:
+This is the most common command:
+
+```bash
+python3 llm_shadow_audit.py \
+  --openrouter-key "YOUR_OPENROUTER_KEY" \
+  --fireworks-key "YOUR_FIREWORKS_KEY" \
+  --longent-model "gpt-5.4-fast(xhigh)"
+```
+
+What it gives you:
+
+- who finishes more tasks
+- who answers more tasks correctly
+- who is faster
+- who burns more reasoning tokens
+- who behaves differently from the baseline
+
+## Shadow Audit Mode
+
+You can also use your own prompts:
 
 ```bash
 python3 llm_shadow_audit.py \
@@ -108,7 +114,14 @@ python3 llm_shadow_audit.py \
   --tasks-per-family 0
 ```
 
-Example `jsonl` lines:
+Supported prompt file formats:
+
+- `.jsonl`
+- `.json`
+- `.txt`
+- `.md`
+
+Example JSONL rows:
 
 ```json
 {"id":"p1","prompt":"Summarize this article"}
@@ -116,18 +129,18 @@ Example `jsonl` lines:
 {"id":"p3","prompt":"Return strict minified JSON","expected":"{\"ok\":true}"}
 ```
 
-## Defaults
+## Default Settings
 
-The current defaults are tuned for stronger audits:
+The defaults are tuned for stronger audits:
 
 - `difficulty=hard`
 - `tasks_per_family=10`
 - `max_output_tokens=1024`
 - fresh random seed every run unless you pass `--seed`
 
-## Output Report
+## Output
 
-Each run writes a JSON report.
+Every run writes a JSON report.
 
 The report includes:
 
@@ -141,19 +154,21 @@ Prompt text is excluded by default. Only prompt hashes are stored unless you exp
 ## Security Notes
 
 - never commit API keys
-- pass keys via CLI flags or your own secure local setup
-- keep `--include-prompt-text` off unless you truly need raw prompt storage
+- pass keys through CLI flags or your own secure local setup
+- keep `--include-prompt-text` off unless you really need raw prompt storage
 
 ## Chinese Summary
 
 `Model Gateway Tester` 是一个用来比较模型网关质量的工具。
 
-它的作用是：
+它最适合做这几件事：
 
-- 测第三方模型路线强不强
-- 测它稳不稳
-- 测它快不快
-- 测它到底像不像它宣称的那个模型
+- 比较第三方模型路线到底强不强
+- 看它稳不稳、快不快
+- 看它到底像不像它宣称的那个模型
+- 用同一批隐藏题，把不同网关放在同一张表里比较
+
+一句话：
 
 它不是模型本身，而是一个“模型网关测试器”。
 
