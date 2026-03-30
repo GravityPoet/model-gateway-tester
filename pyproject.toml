@@ -16,7 +16,7 @@ classifiers = [
 ]
 
 [project.scripts]
-model-gateway-tester = "llm_shadow_audit:main"
+model-gateway-tester = "model_gateway_tester:main"
 
 [build-system]
 requires = ["setuptools>=68"]

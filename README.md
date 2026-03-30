@@ -50,20 +50,20 @@ This project focuses on harder-to-fake evaluation:
 Python 3.11+ is recommended.
 
 ```bash
-python3 -m py_compile llm_shadow_audit.py
+python3 -m py_compile model_gateway_tester.py
 ```
 
 Run a default hard audit:
 
 ```bash
-python3 llm_shadow_audit.py \
+python3 model_gateway_tester.py \
   --openrouter-key "YOUR_OPENROUTER_KEY"
 ```
 
 Run a three-way comparison:
 
 ```bash
-python3 llm_shadow_audit.py \
+python3 model_gateway_tester.py \
   --openrouter-key "YOUR_OPENROUTER_KEY" \
   --fireworks-key "YOUR_FIREWORKS_KEY"
 ```
@@ -71,7 +71,7 @@ python3 llm_shadow_audit.py \
 Override the Longent route:
 
 ```bash
-python3 llm_shadow_audit.py \
+python3 model_gateway_tester.py \
   --openrouter-key "YOUR_OPENROUTER_KEY" \
   --fireworks-key "YOUR_FIREWORKS_KEY" \
   --longent-model "gpt-5.4(xhigh)"
@@ -80,7 +80,7 @@ python3 llm_shadow_audit.py \
 Reproduce the same benchmark set:
 
 ```bash
-python3 llm_shadow_audit.py \
+python3 model_gateway_tester.py \
   --seed 123456 \
   --openrouter-key "YOUR_OPENROUTER_KEY"
 ```
@@ -90,7 +90,7 @@ python3 llm_shadow_audit.py \
 This is the most common command:
 
 ```bash
-python3 llm_shadow_audit.py \
+python3 model_gateway_tester.py \
   --openrouter-key "YOUR_OPENROUTER_KEY" \
   --fireworks-key "YOUR_FIREWORKS_KEY" \
   --longent-model "gpt-5.4-fast(xhigh)"
@@ -109,7 +109,7 @@ What it gives you:
 You can also use your own prompts:
 
 ```bash
-python3 llm_shadow_audit.py \
+python3 model_gateway_tester.py \
   --openrouter-key "YOUR_OPENROUTER_KEY" \
   --prompt-file prompts.jsonl \
   --shadow-sample-size 30 \
