@@ -62,9 +62,9 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--difficulty",
-        choices=["standard", "mixed", "hard"],
+        choices=["standard", "mixed", "hard", "very-hard"],
         default="hard",
-        help="Dynamic task difficulty profile. standard=old easier families, hard=new harder families, mixed=both.",
+        help="Dynamic task difficulty profile. standard=old easier families, hard=new harder families, very-hard=top-tier separator tasks, mixed=standard+hard.",
     )
     parser.add_argument(
         "--prompt-file",
@@ -443,6 +443,164 @@ def build_dynamic_test_suite(
             source="dynamic",
         )
 
+    def mk_register_machine_long(idx: int) -> TestCase:
+        nums = rng.sample(range(2, 18), rng.randint(10, 14))
+        base = rng.randint(-8, 8)
+        mul = rng.randint(2, 5)
+        sub = rng.randint(2, 6)
+        bonus = rng.randint(1, 4)
+        flag = rng.randint(0, 3)
+        acc = base
+        start_flag = flag
+        for x in nums:
+            if (x + flag) % 4 == 0:
+                acc = acc * mul + x - flag
+                flag = (flag + 1) % 4
+            elif x % 5 == 0:
+                acc = acc - x * sub + bonus
+                flag = (flag + 2) % 4
+            elif x % 2 == 0:
+                acc = acc + x * bonus - flag
+            else:
+                acc = acc + x + flag + bonus
+        prompt = (
+            "Without showing work, what integer does this Python function return?\n\n"
+            "def run():\n"
+            f"    acc = {base}\n"
+            f"    flag = {start_flag}\n"
+            f"    nums = {nums}\n"
+            "    for x in nums:\n"
+            "        if (x + flag) % 4 == 0:\n"
+            f"            acc = acc * {mul} + x - flag\n"
+            "            flag = (flag + 1) % 4\n"
+            "        elif x % 5 == 0:\n"
+            f"            acc = acc - x * {sub} + {bonus}\n"
+            "            flag = (flag + 2) % 4\n"
+            "        elif x % 2 == 0:\n"
+            f"            acc = acc + x * {bonus} - flag\n"
+            "        else:\n"
+            f"            acc = acc + x + flag + {bonus}\n"
+            "    return acc\n\n"
+            "Reply with only the integer."
+        )
+        return TestCase(
+            test_id=f"register_machine_long_{idx}",
+            family="register_machine_long",
+            prompt=prompt,
+            expected=str(acc),
+            source="dynamic",
+        )
+
+    def mk_table_query_hard(idx: int) -> TestCase:
+        teams = ["red", "blue", "green", "gold"]
+        regions = ["east", "west", "north", "south"]
+        rows = []
+        for i in range(rng.randint(8, 10)):
+            rows.append(
+                {
+                    "name": chr(ord("A") + i),
+                    "team": rng.choice(teams),
+                    "region": rng.choice(regions),
+                    "score": rng.randint(2, 15),
+                    "weight": rng.randint(1, 5),
+                    "bonus": rng.randint(0, 4),
+                }
+            )
+        target_team = rng.choice(teams)
+        target_region = rng.choice(regions)
+        threshold = rng.randint(6, 10)
+        selected = [
+            row
+            for row in rows
+            if row["team"] != target_team
+            and row["region"] != target_region
+            and row["score"] >= threshold
+        ]
+        selected.sort(key=lambda row: (row["weight"], -row["score"], row["name"]))
+        picked = selected[:4]
+        total = sum((row["score"] + row["bonus"]) * row["weight"] for row in picked)
+        prompt_rows = "; ".join(
+            f"{row['name']} team={row['team']} region={row['region']} score={row['score']} weight={row['weight']} bonus={row['bonus']}"
+            for row in rows
+        )
+        prompt = (
+            "Reply with only the integer. Rows: "
+            f"{prompt_rows}. "
+            f"Keep rows where team != {target_team}, region != {target_region}, and score >= {threshold}. "
+            "Sort remaining rows by weight ascending, then score descending, then name ascending. "
+            "Take the first 4 rows after sorting. "
+            "Return sum((score + bonus) * weight) over those rows."
+        )
+        return TestCase(
+            test_id=f"table_query_hard_{idx}",
+            family="table_query_hard",
+            prompt=prompt,
+            expected=str(total),
+            source="dynamic",
+        )
+
+    def mk_fsm_long(idx: int) -> TestCase:
+        states = ["A", "B", "C", "D", "E"]
+        tokens = rng.choices(["x", "y", "z"], k=rng.randint(12, 16))
+        state = rng.choice(states)
+        counter = rng.randint(-2, 4)
+        start_state = state
+        start_counter = counter
+        for token in tokens:
+            if state == "A":
+                if token == "x":
+                    state, counter = "B", counter + 2
+                elif token == "y":
+                    state, counter = "C", counter - 1
+                else:
+                    state, counter = "D", counter + 1
+            elif state == "B":
+                if token == "x":
+                    state, counter = "E", counter + 1
+                elif token == "y":
+                    state, counter = "D", counter + 2
+                else:
+                    state, counter = "A", counter - 2
+            elif state == "C":
+                if token == "x":
+                    state, counter = "D", counter + 3
+                elif token == "y":
+                    state, counter = "A", counter + 1
+                else:
+                    state, counter = "C", counter - 1
+            elif state == "D":
+                if token == "x":
+                    state, counter = "A", counter + 2
+                elif token == "y":
+                    state, counter = "C", counter - 2
+                else:
+                    state, counter = "B", counter + 1
+            else:
+                if token == "x":
+                    state, counter = "C", counter + 2
+                elif token == "y":
+                    state, counter = "E", counter - 1
+                else:
+                    state, counter = "B", counter + 3
+        prompt = (
+            f"Start in state {start_state} with counter={start_counter}. "
+            f"Process tokens in order: {','.join(tokens)}. "
+            "Transition rules: "
+            "A:x->(B,+2), A:y->(C,-1), A:z->(D,+1); "
+            "B:x->(E,+1), B:y->(D,+2), B:z->(A,-2); "
+            "C:x->(D,+3), C:y->(A,+1), C:z->(C,-1); "
+            "D:x->(A,+2), D:y->(C,-2), D:z->(B,+1); "
+            "E:x->(C,+2), E:y->(E,-1), E:z->(B,+3). "
+            "Reply only as STATE,COUNTER."
+        )
+        return TestCase(
+            test_id=f"fsm_long_{idx}",
+            family="fsm_long",
+            prompt=prompt,
+            expected=f"{state},{counter}",
+            source="dynamic",
+        )
+
     standard_families = [
         mk_py_trace,
         mk_path,
@@ -456,10 +614,17 @@ def build_dynamic_test_suite(
         mk_table_query,
         mk_fsm,
     ]
+    very_hard_families = [
+        mk_register_machine_long,
+        mk_table_query_hard,
+        mk_fsm_long,
+    ]
     if difficulty == "standard":
         families = standard_families
     elif difficulty == "hard":
         families = hard_families
+    elif difficulty == "very-hard":
+        families = very_hard_families
     else:
         families = standard_families + hard_families
     for idx in range(1, tasks_per_family + 1):

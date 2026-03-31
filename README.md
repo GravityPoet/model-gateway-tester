@@ -140,6 +140,16 @@ The defaults are tuned for stronger audits:
 - `max_output_tokens=1024`
 - fresh random seed every run unless you pass `--seed`
 
+If you want a stronger separator for top-tier models, use `very-hard`:
+
+```bash
+python3 model_gateway_tester.py \
+  --difficulty very-hard \
+  --tasks-per-family 5
+```
+
+Use this mode when too many providers still cluster at the top on regular hard runs.
+
 ## Output
 
 Every run writes a JSON report.
