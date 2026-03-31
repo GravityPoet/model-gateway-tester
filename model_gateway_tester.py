@@ -57,7 +57,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--tasks-per-family",
         type=int,
-        default=20,
+        default=10,
         help="Number of dynamic private variants to generate per family. Use 0 for shadow-only mode.",
     )
     parser.add_argument(
