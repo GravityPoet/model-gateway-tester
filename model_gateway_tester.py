@@ -63,7 +63,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--difficulty",
         choices=["standard", "mixed", "hard", "very-hard"],
-        default="hard",
+        default="very-hard",
         help="Dynamic task difficulty profile. standard=old easier families, hard=new harder families, very-hard=top-tier separator tasks, mixed=standard+hard.",
     )
     parser.add_argument(

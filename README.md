@@ -135,7 +135,7 @@ Example JSONL rows:
 
 The defaults are tuned for stronger audits:
 
-- `difficulty=hard`
+- `difficulty=very-hard`
 - `tasks_per_family=10`
 - `max_output_tokens=1024`
 - fresh random seed every run unless you pass `--seed`
