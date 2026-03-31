@@ -135,18 +135,20 @@ Example JSONL rows:
 
 The defaults are tuned for stronger audits:
 
-- `difficulty=very-hard`
+- `difficulty=extreme`
 - `tasks_per_family=10`
 - `max_output_tokens=1024`
 - fresh random seed every run unless you pass `--seed`
 
-If you want a stronger separator for top-tier models, use `very-hard`:
+If you want the strongest built-in separator for top-tier models, use `extreme`:
 
 ```bash
 python3 model_gateway_tester.py \
-  --difficulty very-hard \
+  --difficulty extreme \
   --tasks-per-family 5
 ```
+
+Use this mode when even `very-hard` is no longer enough to split the top models apart.
 
 Use this mode when too many providers still cluster at the top on regular hard runs.
 
