@@ -188,7 +188,7 @@ def difficulty_family_count(difficulty: str) -> int:
     if difficulty == "very-hard":
         return 3
     if difficulty == "extreme":
-        return 7
+        return 10
     if difficulty == "mixed":
         return 9
     raise ValueError(f"Unknown difficulty: {difficulty}")
@@ -1029,6 +1029,199 @@ def build_dynamic_test_suite(
             source="dynamic",
         )
 
+    def mk_long_trace_extreme(idx: int) -> TestCase:
+        nums = rng.sample(range(2, 28), rng.randint(16, 20))
+        acc = rng.randint(-12, 12)
+        alt = rng.randint(-6, 6)
+        flag = rng.randint(0, 4)
+        bias = rng.randint(1, 4)
+        mul = rng.randint(2, 5)
+        sub = rng.randint(2, 6)
+        start_acc = acc
+        start_alt = alt
+        start_flag = flag
+
+        for i, x in enumerate(nums, start=1):
+            if (x + flag + i) % 6 == 0:
+                acc = acc * mul + x - flag - i
+                alt = alt + bias - (x % 3)
+                flag = (flag + 1) % 5
+            elif x % 5 == 0:
+                acc = acc - x * sub + alt + bias
+                alt = alt + (i % 3) - 1
+                flag = (flag + 3) % 5
+            elif (i + alt) % 2 == 0:
+                acc = acc + x * bias - flag + alt
+            else:
+                acc = acc + x + flag - alt
+
+            if acc % 4 == 0:
+                alt = alt + 1
+            elif acc % 3 == 0:
+                alt = alt - 1
+
+        prompt = (
+            "Without showing work, what integer does this Python function return?\n\n"
+            "def run():\n"
+            f"    acc = {start_acc}\n"
+            f"    alt = {start_alt}\n"
+            f"    flag = {start_flag}\n"
+            f"    nums = {nums}\n"
+            "    for i, x in enumerate(nums, start=1):\n"
+            f"        if (x + flag + i) % 6 == 0:\n"
+            f"            acc = acc * {mul} + x - flag - i\n"
+            f"            alt = alt + {bias} - (x % 3)\n"
+            "            flag = (flag + 1) % 5\n"
+            "        elif x % 5 == 0:\n"
+            f"            acc = acc - x * {sub} + alt + {bias}\n"
+            "            alt = alt + (i % 3) - 1\n"
+            "            flag = (flag + 3) % 5\n"
+            "        elif (i + alt) % 2 == 0:\n"
+            f"            acc = acc + x * {bias} - flag + alt\n"
+            "        else:\n"
+            "            acc = acc + x + flag - alt\n"
+            "\n"
+            "        if acc % 4 == 0:\n"
+            "            alt = alt + 1\n"
+            "        elif acc % 3 == 0:\n"
+            "            alt = alt - 1\n"
+            "    return acc\n\n"
+            "Reply with only the integer."
+        )
+        return TestCase(
+            test_id=f"long_trace_extreme_{idx}",
+            family="long_trace_extreme",
+            prompt=prompt,
+            expected=str(acc),
+            source="dynamic",
+        )
+
+    def mk_mixed_pipeline_extreme(idx: int) -> TestCase:
+        teams = ["red", "blue", "green", "gold", "black"]
+        regions = ["east", "west", "north", "south", "central"]
+        rows = []
+        for i in range(rng.randint(11, 14)):
+            rows.append(
+                {
+                    "name": chr(ord("A") + i),
+                    "team": rng.choice(teams),
+                    "region": rng.choice(regions),
+                    "score": rng.randint(3, 18),
+                    "weight": rng.randint(1, 6),
+                    "bonus": rng.randint(0, 5),
+                    "penalty": rng.randint(0, 3),
+                }
+            )
+
+        blocked_team = rng.choice(teams)
+        blocked_region = rng.choice(regions)
+        threshold = rng.randint(8, 12)
+        selected = [
+            row
+            for row in rows
+            if row["team"] != blocked_team
+            and row["region"] != blocked_region
+            and row["score"] >= threshold
+            and row["bonus"] >= row["penalty"]
+        ]
+        selected.sort(
+            key=lambda row: (row["weight"], -(row["score"] + row["bonus"]), row["name"])
+        )
+        picked = selected[:4]
+        values = [row["score"] + row["bonus"] - row["penalty"] for row in picked]
+        checksum = 0
+        for i, value in enumerate(values, start=1):
+            if i % 2 == 1:
+                checksum += value * 2
+            else:
+                checksum -= value
+        ids = "".join(row["name"] for row in picked)
+        prompt_rows = "; ".join(
+            f"{row['name']} team={row['team']} region={row['region']} score={row['score']} weight={row['weight']} bonus={row['bonus']} penalty={row['penalty']}"
+            for row in rows
+        )
+        prompt = (
+            "This is a two-stage task. Reply only as IDS|CHECKSUM. "
+            f"Rows: {prompt_rows}. "
+            f"Stage 1: keep rows where team != {blocked_team}, region != {blocked_region}, score >= {threshold}, and bonus >= penalty. "
+            "Sort remaining rows by weight ascending, then (score + bonus) descending, then name ascending. "
+            "Take the first 4 rows after sorting. "
+            "Stage 2: for the selected rows, compute value = score + bonus - penalty. "
+            "Let CHECKSUM start at 0. For values in order: add 2*value at odd positions and subtract value at even positions. "
+            "Set IDS to the selected row names concatenated in order."
+        )
+        return TestCase(
+            test_id=f"mixed_pipeline_extreme_{idx}",
+            family="mixed_pipeline_extreme",
+            prompt=prompt,
+            expected=f"{ids}|{checksum}",
+            source="dynamic",
+        )
+
+    def mk_edge_case_filter_extreme(idx: int) -> TestCase:
+        statuses = ["live", "hold", "drop", "retry"]
+        locks = ["yes", "no"]
+        rows = []
+        for i in range(rng.randint(8, 11)):
+            rows.append(
+                {
+                    "name": chr(ord("A") + i),
+                    "status": rng.choice(statuses),
+                    "lock": rng.choice(locks),
+                    "qty": rng.randint(5, 15),
+                    "bonus": rng.randint(0, 5),
+                    "penalty": rng.randint(0, 3),
+                }
+            )
+
+        threshold = rng.randint(7, 12)
+        selected = []
+        for row in rows:
+            keep = row["status"] != "drop"
+            if row["status"] == "retry":
+                keep = True
+            if row["lock"] == "yes":
+                keep = False
+            if row["qty"] == threshold and row["status"] == "hold":
+                keep = False
+            if row["bonus"] < row["penalty"]:
+                keep = False
+            if keep:
+                selected.append(row)
+
+        selected.sort(
+            key=lambda row: (
+                -(row["qty"] + row["bonus"] - row["penalty"]),
+                row["name"],
+            )
+        )
+        picked = selected[:5]
+        ids = "".join(row["name"] for row in picked)
+        total = sum(row["qty"] + row["bonus"] - row["penalty"] for row in picked)
+        prompt_rows = "; ".join(
+            f"{row['name']} status={row['status']} lock={row['lock']} qty={row['qty']} bonus={row['bonus']} penalty={row['penalty']}"
+            for row in rows
+        )
+        prompt = (
+            "This task has boundary rules. Reply only as IDS|TOTAL. "
+            f"Rows: {prompt_rows}. "
+            "Rules in order: "
+            "1) Default keep rows where status != drop. "
+            "2) Exception: status=retry rows are kept even if rule 1 would reject them. "
+            "3) Hard stop: lock=yes rows are never kept. "
+            f"4) Boundary rule: if qty == {threshold} and status == hold, drop the row. "
+            "5) If bonus < penalty, drop the row. "
+            "After filtering, sort by (qty + bonus - penalty) descending, then name ascending. "
+            "Take the first 5 rows. IDS is their names concatenated; TOTAL is sum(qty + bonus - penalty) over those rows."
+        )
+        return TestCase(
+            test_id=f"edge_case_filter_extreme_{idx}",
+            family="edge_case_filter_extreme",
+            prompt=prompt,
+            expected=f"{ids}|{total}",
+            source="dynamic",
+        )
+
     standard_families = [
         mk_py_trace,
         mk_path,
@@ -1055,6 +1248,9 @@ def build_dynamic_test_suite(
         mk_window_scan_extreme,
         mk_json_contract_extreme,
         mk_dependency_schedule_extreme,
+        mk_long_trace_extreme,
+        mk_mixed_pipeline_extreme,
+        mk_edge_case_filter_extreme,
     ]
     if difficulty == "standard":
         families = standard_families

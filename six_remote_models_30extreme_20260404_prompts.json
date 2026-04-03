@@ -1,0 +1,152 @@
+[
+  {
+    "test_id": "register_machine_extreme_1",
+    "family": "register_machine_extreme",
+    "prompt": "Without showing work, what integer does this Python function return?\n\ndef run():\n    acc = -4\n    flag = 3\n    nums = [11, 13, 15, 16, 2, 10, 7, 5, 23, 18, 4, 14, 9, 6]\n    for x in nums:\n        if (x + flag) % 5 == 0:\n            acc = acc * 3 + x - flag\n            flag = (flag + 1) % 5\n        elif x % 7 == 0:\n            acc = acc - x * 3 + 4\n            flag = (flag + 3) % 5\n        elif x % 3 == 0:\n            acc = acc + x * 4 - (flag * 2)\n        elif x % 2 == 0:\n            acc = acc - x + 4 + flag\n        else:\n            acc = acc + x + flag + 4\n    return acc\n\nReply with only the integer."
+  },
+  {
+    "test_id": "table_query_extreme_1",
+    "family": "table_query_extreme",
+    "prompt": "Reply with only the integer. Rows: A team=gold region=west score=7 weight=4 bonus=5 penalty=2; B team=gold region=east score=9 weight=2 bonus=5 penalty=2; C team=green region=east score=8 weight=4 bonus=3 penalty=3; D team=gold region=west score=9 weight=6 bonus=2 penalty=0; E team=black region=east score=3 weight=3 bonus=0 penalty=0; F team=blue region=north score=15 weight=2 bonus=0 penalty=3; G team=black region=west score=2 weight=6 bonus=4 penalty=3; H team=blue region=west score=2 weight=3 bonus=3 penalty=3; I team=blue region=north score=17 weight=6 bonus=1 penalty=1; J team=blue region=central score=17 weight=6 bonus=0 penalty=2; K team=blue region=south score=16 weight=1 bonus=0 penalty=0; L team=red region=south score=15 weight=1 bonus=0 penalty=1; M team=blue region=central score=15 weight=1 bonus=1 penalty=0. Keep rows where team != green, region != east, score >= 12, and bonus >= penalty. Sort remaining rows by weight ascending, then (score + bonus) descending, then name ascending. Take the first 5 rows after sorting. Return sum((score + bonus - penalty) * weight) over those rows."
+  },
+  {
+    "test_id": "fsm_extreme_1",
+    "family": "fsm_extreme",
+    "prompt": "Start in state C with counter=-1. Process tokens in order: z,y,x,y,x,x,y,y,z,x,z,x,y,x,x,y,y,y,z,y. Transition rules: A:x->(B,+2), A:y->(C,-1), A:z->(D,+1); B:x->(E,+1), B:y->(D,+2), B:z->(A,-2); C:x->(D,+3), C:y->(A,+1), C:z->(C,-1); D:x->(A,+2), D:y->(C,-2), D:z->(B,+1); E:x->(C,+2), E:y->(E,-1), E:z->(F,+3); F:x->(B,-1), F:y->(D,+4), F:z->(A,-3). Reply only as STATE,COUNTER."
+  },
+  {
+    "test_id": "stack_machine_extreme_1",
+    "family": "stack_machine_extreme",
+    "prompt": "Start with stack bottom->top [6, 3, 7]. Apply operations in order: SWAP, SWAP, SWAP, ADD, ADD, PUSH4, DUP, PUSH5, PUSH9, TWIST2, PUSH3, TWIST3, SUB, PUSH6, SUB, DUP, SUB, SUB. Rules: PUSHn pushes n; DUP duplicates top; SWAP swaps top two; ROT turns top three from [a,b,c] into [b,c,a]; ADD pops a,b and pushes a+b; SUB pops a,b and pushes a-b where b is the top and a is the next item; MULADDk pops a,b and pushes a*b+k; TWISTk replaces top x with x//2+k if x is even, otherwise x*2-k. Reply only with the final stack top->bottom as comma-separated integers."
+  },
+  {
+    "test_id": "window_scan_extreme_1",
+    "family": "window_scan_extreme",
+    "prompt": "Given the list [17, 2, 17, 6, 2, 7, 2, 16, 10, 11, 13, 16, 17, 19, 19, 4], examine every contiguous window of length 7. For a window, define score = 2*sum(odd values) - sum(even values) + count(values divisible by 3) + (max(window) - min(window)). Pick the highest-scoring window; if there is a tie, pick the smallest 1-indexed start. Reply only as START,SCORE."
+  },
+  {
+    "test_id": "json_contract_extreme_1",
+    "family": "json_contract_extreme",
+    "prompt": "Return only minified JSON with keys count,ids,score,winner in that exact order. Rows: A status=drop tier=bronze qty=11 bonus=0 penalty=2; B status=review tier=silver qty=10 bonus=5 penalty=2; C status=hold tier=silver qty=5 bonus=3 penalty=1; D status=hold tier=gold qty=10 bonus=4 penalty=2; E status=hold tier=silver qty=10 bonus=0 penalty=2; F status=drop tier=silver qty=8 bonus=1 penalty=1. Keep rows where status != drop, qty >= 10, and bonus >= penalty. Sort remaining rows by tier rank gold>silver>bronze, then by (qty + bonus - penalty) descending, then id ascending. Set winner to the first id after sorting, or NONE if nothing remains. Set ids to the first 4 remaining ids joined by |. Set score to sum((qty + bonus - penalty) * tierWeight), where bronze=1, silver=2, gold=3."
+  },
+  {
+    "test_id": "dependency_schedule_extreme_1",
+    "family": "dependency_schedule_extreme",
+    "prompt": "There are two identical workers. At time 0, repeatedly start the lexicographically smallest available task on each free worker. A task becomes available only when all of its prerequisites are finished. Tasks are non-preemptive. If multiple tasks finish at the same time, record them in alphabetical order in the finish log. Tasks: A dur=2 deps=-; B dur=2 deps=-; C dur=5 deps=-; D dur=3 deps=A,C; E dur=5 deps=A,B; F dur=3 deps=E; G dur=4 deps=-. Reply only as TOTAL|ORDER, where TOTAL is the final completion time and ORDER is the finish log."
+  },
+  {
+    "test_id": "register_machine_extreme_2",
+    "family": "register_machine_extreme",
+    "prompt": "Without showing work, what integer does this Python function return?\n\ndef run():\n    acc = 1\n    flag = 1\n    nums = [14, 4, 3, 9, 5, 21, 15, 10, 22, 12, 13, 20, 6, 2, 18, 7, 23, 8]\n    for x in nums:\n        if (x + flag) % 5 == 0:\n            acc = acc * 2 + x - flag\n            flag = (flag + 1) % 5\n        elif x % 7 == 0:\n            acc = acc - x * 6 + 5\n            flag = (flag + 3) % 5\n        elif x % 3 == 0:\n            acc = acc + x * 5 - (flag * 2)\n        elif x % 2 == 0:\n            acc = acc - x + 5 + flag\n        else:\n            acc = acc + x + flag + 5\n    return acc\n\nReply with only the integer."
+  },
+  {
+    "test_id": "table_query_extreme_2",
+    "family": "table_query_extreme",
+    "prompt": "Reply with only the integer. Rows: A team=blue region=north score=16 weight=2 bonus=2 penalty=0; B team=green region=south score=7 weight=3 bonus=1 penalty=2; C team=blue region=west score=8 weight=2 bonus=1 penalty=2; D team=red region=east score=2 weight=3 bonus=2 penalty=1; E team=red region=west score=13 weight=5 bonus=0 penalty=2; F team=red region=north score=17 weight=5 bonus=2 penalty=3; G team=gold region=south score=5 weight=5 bonus=3 penalty=1; H team=blue region=central score=12 weight=2 bonus=1 penalty=0; I team=green region=central score=15 weight=5 bonus=3 penalty=0; J team=gold region=south score=8 weight=6 bonus=1 penalty=1; K team=gold region=east score=7 weight=6 bonus=3 penalty=1; L team=black region=south score=6 weight=2 bonus=5 penalty=2; M team=black region=east score=14 weight=1 bonus=4 penalty=3. Keep rows where team != gold, region != west, score >= 9, and bonus >= penalty. Sort remaining rows by weight ascending, then (score + bonus) descending, then name ascending. Take the first 5 rows after sorting. Return sum((score + bonus - penalty) * weight) over those rows."
+  },
+  {
+    "test_id": "fsm_extreme_2",
+    "family": "fsm_extreme",
+    "prompt": "Start in state D with counter=-3. Process tokens in order: z,y,z,y,y,y,z,z,x,x,z,x,x,x,y,z,z,z. Transition rules: A:x->(B,+2), A:y->(C,-1), A:z->(D,+1); B:x->(E,+1), B:y->(D,+2), B:z->(A,-2); C:x->(D,+3), C:y->(A,+1), C:z->(C,-1); D:x->(A,+2), D:y->(C,-2), D:z->(B,+1); E:x->(C,+2), E:y->(E,-1), E:z->(F,+3); F:x->(B,-1), F:y->(D,+4), F:z->(A,-3). Reply only as STATE,COUNTER."
+  },
+  {
+    "test_id": "stack_machine_extreme_2",
+    "family": "stack_machine_extreme",
+    "prompt": "Start with stack bottom->top [5, 3, 11]. Apply operations in order: ROT, PUSH7, MULADD2, PUSH2, PUSH12, ADD, TWIST2, TWIST2, SUB, MULADD3, DUP, SUB, DUP, PUSH4, ADD, ADD, DUP. Rules: PUSHn pushes n; DUP duplicates top; SWAP swaps top two; ROT turns top three from [a,b,c] into [b,c,a]; ADD pops a,b and pushes a+b; SUB pops a,b and pushes a-b where b is the top and a is the next item; MULADDk pops a,b and pushes a*b+k; TWISTk replaces top x with x//2+k if x is even, otherwise x*2-k. Reply only with the final stack top->bottom as comma-separated integers."
+  },
+  {
+    "test_id": "window_scan_extreme_2",
+    "family": "window_scan_extreme",
+    "prompt": "Given the list [6, 11, 9, 7, 4, 14, 9, 17, 14, 9, 3, 17, 19, 8, 3, 9, 18], examine every contiguous window of length 7. For a window, define score = 2*sum(odd values) - sum(even values) + count(values divisible by 3) + (max(window) - min(window)). Pick the highest-scoring window; if there is a tie, pick the smallest 1-indexed start. Reply only as START,SCORE."
+  },
+  {
+    "test_id": "json_contract_extreme_2",
+    "family": "json_contract_extreme",
+    "prompt": "Return only minified JSON with keys count,ids,score,winner in that exact order. Rows: A status=drop tier=gold qty=5 bonus=1 penalty=0; B status=hold tier=gold qty=6 bonus=2 penalty=3; C status=hold tier=gold qty=10 bonus=3 penalty=0; D status=live tier=gold qty=6 bonus=5 penalty=1; E status=drop tier=gold qty=11 bonus=3 penalty=3; F status=drop tier=gold qty=8 bonus=3 penalty=3. Keep rows where status != drop, qty >= 8, and bonus >= penalty. Sort remaining rows by tier rank gold>silver>bronze, then by (qty + bonus - penalty) descending, then id ascending. Set winner to the first id after sorting, or NONE if nothing remains. Set ids to the first 4 remaining ids joined by |. Set score to sum((qty + bonus - penalty) * tierWeight), where bronze=1, silver=2, gold=3."
+  },
+  {
+    "test_id": "dependency_schedule_extreme_2",
+    "family": "dependency_schedule_extreme",
+    "prompt": "There are two identical workers. At time 0, repeatedly start the lexicographically smallest available task on each free worker. A task becomes available only when all of its prerequisites are finished. Tasks are non-preemptive. If multiple tasks finish at the same time, record them in alphabetical order in the finish log. Tasks: A dur=5 deps=-; B dur=5 deps=-; C dur=5 deps=-; D dur=2 deps=A,C; E dur=3 deps=B,D; F dur=4 deps=-; G dur=2 deps=-. Reply only as TOTAL|ORDER, where TOTAL is the final completion time and ORDER is the finish log."
+  },
+  {
+    "test_id": "register_machine_extreme_3",
+    "family": "register_machine_extreme",
+    "prompt": "Without showing work, what integer does this Python function return?\n\ndef run():\n    acc = 10\n    flag = 3\n    nums = [15, 14, 2, 10, 3, 7, 22, 13, 11, 5, 12, 6, 8, 18, 16, 17]\n    for x in nums:\n        if (x + flag) % 5 == 0:\n            acc = acc * 2 + x - flag\n            flag = (flag + 1) % 5\n        elif x % 7 == 0:\n            acc = acc - x * 4 + 2\n            flag = (flag + 3) % 5\n        elif x % 3 == 0:\n            acc = acc + x * 2 - (flag * 2)\n        elif x % 2 == 0:\n            acc = acc - x + 2 + flag\n        else:\n            acc = acc + x + flag + 2\n    return acc\n\nReply with only the integer."
+  },
+  {
+    "test_id": "table_query_extreme_3",
+    "family": "table_query_extreme",
+    "prompt": "Reply with only the integer. Rows: A team=blue region=west score=13 weight=2 bonus=1 penalty=3; B team=blue region=north score=15 weight=5 bonus=4 penalty=0; C team=green region=central score=2 weight=2 bonus=0 penalty=2; D team=blue region=west score=7 weight=4 bonus=0 penalty=1; E team=red region=east score=8 weight=3 bonus=4 penalty=0; F team=red region=west score=9 weight=3 bonus=4 penalty=0; G team=black region=east score=14 weight=5 bonus=2 penalty=1; H team=blue region=east score=8 weight=6 bonus=2 penalty=3; I team=blue region=south score=17 weight=1 bonus=1 penalty=2; J team=blue region=central score=17 weight=2 bonus=2 penalty=2; K team=gold region=north score=13 weight=6 bonus=3 penalty=1; L team=blue region=central score=5 weight=3 bonus=3 penalty=0. Keep rows where team != gold, region != north, score >= 10, and bonus >= penalty. Sort remaining rows by weight ascending, then (score + bonus) descending, then name ascending. Take the first 5 rows after sorting. Return sum((score + bonus - penalty) * weight) over those rows."
+  },
+  {
+    "test_id": "stack_machine_extreme_3",
+    "family": "stack_machine_extreme",
+    "prompt": "Start with stack bottom->top [3, 9, 6]. Apply operations in order: ROT, ADD, PUSH13, TWIST1, DUP, PUSH7, ROT, ROT, PUSH3, DUP, MULADD2, DUP, MULADD5, ROT, SWAP, SUB, ADD, ROT. Rules: PUSHn pushes n; DUP duplicates top; SWAP swaps top two; ROT turns top three from [a,b,c] into [b,c,a]; ADD pops a,b and pushes a+b; SUB pops a,b and pushes a-b where b is the top and a is the next item; MULADDk pops a,b and pushes a*b+k; TWISTk replaces top x with x//2+k if x is even, otherwise x*2-k. Reply only with the final stack top->bottom as comma-separated integers."
+  },
+  {
+    "test_id": "window_scan_extreme_3",
+    "family": "window_scan_extreme",
+    "prompt": "Given the list [10, 13, 6, 18, 15, 6, 9, 10, 12, 14, 7, 2, 8, 13, 16, 17, 17, 5, 7, 9], examine every contiguous window of length 6. For a window, define score = 2*sum(odd values) - sum(even values) + count(values divisible by 3) + (max(window) - min(window)). Pick the highest-scoring window; if there is a tie, pick the smallest 1-indexed start. Reply only as START,SCORE."
+  },
+  {
+    "test_id": "json_contract_extreme_3",
+    "family": "json_contract_extreme",
+    "prompt": "Return only minified JSON with keys count,ids,score,winner in that exact order. Rows: A status=live tier=bronze qty=4 bonus=2 penalty=3; B status=live tier=bronze qty=4 bonus=2 penalty=0; C status=drop tier=silver qty=4 bonus=1 penalty=0; D status=live tier=gold qty=7 bonus=0 penalty=2; E status=drop tier=bronze qty=10 bonus=4 penalty=2; F status=review tier=gold qty=4 bonus=2 penalty=0. Keep rows where status != drop, qty >= 6, and bonus >= penalty. Sort remaining rows by tier rank gold>silver>bronze, then by (qty + bonus - penalty) descending, then id ascending. Set winner to the first id after sorting, or NONE if nothing remains. Set ids to the first 4 remaining ids joined by |. Set score to sum((qty + bonus - penalty) * tierWeight), where bronze=1, silver=2, gold=3."
+  },
+  {
+    "test_id": "dependency_schedule_extreme_3",
+    "family": "dependency_schedule_extreme",
+    "prompt": "There are two identical workers. At time 0, repeatedly start the lexicographically smallest available task on each free worker. A task becomes available only when all of its prerequisites are finished. Tasks are non-preemptive. If multiple tasks finish at the same time, record them in alphabetical order in the finish log. Tasks: A dur=2 deps=-; B dur=1 deps=A; C dur=5 deps=A; D dur=4 deps=-; E dur=5 deps=C; F dur=1 deps=B; G dur=2 deps=-. Reply only as TOTAL|ORDER, where TOTAL is the final completion time and ORDER is the finish log."
+  },
+  {
+    "test_id": "register_machine_extreme_4",
+    "family": "register_machine_extreme",
+    "prompt": "Without showing work, what integer does this Python function return?\n\ndef run():\n    acc = 6\n    flag = 4\n    nums = [23, 9, 12, 22, 18, 5, 3, 6, 7, 2, 4, 15, 11, 8, 16, 21]\n    for x in nums:\n        if (x + flag) % 5 == 0:\n            acc = acc * 3 + x - flag\n            flag = (flag + 1) % 5\n        elif x % 7 == 0:\n            acc = acc - x * 4 + 4\n            flag = (flag + 3) % 5\n        elif x % 3 == 0:\n            acc = acc + x * 4 - (flag * 2)\n        elif x % 2 == 0:\n            acc = acc - x + 4 + flag\n        else:\n            acc = acc + x + flag + 4\n    return acc\n\nReply with only the integer."
+  },
+  {
+    "test_id": "fsm_extreme_4",
+    "family": "fsm_extreme",
+    "prompt": "Start in state F with counter=-1. Process tokens in order: z,y,y,z,z,y,x,z,z,y,z,y,z,x,y,y,x,z. Transition rules: A:x->(B,+2), A:y->(C,-1), A:z->(D,+1); B:x->(E,+1), B:y->(D,+2), B:z->(A,-2); C:x->(D,+3), C:y->(A,+1), C:z->(C,-1); D:x->(A,+2), D:y->(C,-2), D:z->(B,+1); E:x->(C,+2), E:y->(E,-1), E:z->(F,+3); F:x->(B,-1), F:y->(D,+4), F:z->(A,-3). Reply only as STATE,COUNTER."
+  },
+  {
+    "test_id": "stack_machine_extreme_4",
+    "family": "stack_machine_extreme",
+    "prompt": "Start with stack bottom->top [10, 11, 2]. Apply operations in order: TWIST4, ADD, DUP, ADD, SUB, DUP, MULADD1, TWIST4, DUP, MULADD3, DUP, DUP, TWIST2, PUSH2, PUSH5, DUP, MULADD3, MULADD1, ADD. Rules: PUSHn pushes n; DUP duplicates top; SWAP swaps top two; ROT turns top three from [a,b,c] into [b,c,a]; ADD pops a,b and pushes a+b; SUB pops a,b and pushes a-b where b is the top and a is the next item; MULADDk pops a,b and pushes a*b+k; TWISTk replaces top x with x//2+k if x is even, otherwise x*2-k. Reply only with the final stack top->bottom as comma-separated integers."
+  },
+  {
+    "test_id": "window_scan_extreme_4",
+    "family": "window_scan_extreme",
+    "prompt": "Given the list [8, 16, 4, 16, 14, 15, 11, 6, 3, 5, 5, 2, 2, 13, 3, 17, 13], examine every contiguous window of length 7. For a window, define score = 2*sum(odd values) - sum(even values) + count(values divisible by 3) + (max(window) - min(window)). Pick the highest-scoring window; if there is a tie, pick the smallest 1-indexed start. Reply only as START,SCORE."
+  },
+  {
+    "test_id": "register_machine_extreme_5",
+    "family": "register_machine_extreme",
+    "prompt": "Without showing work, what integer does this Python function return?\n\ndef run():\n    acc = 5\n    flag = 2\n    nums = [2, 18, 14, 6, 5, 4, 20, 17, 7, 13, 10, 16, 8, 21, 22, 12]\n    for x in nums:\n        if (x + flag) % 5 == 0:\n            acc = acc * 6 + x - flag\n            flag = (flag + 1) % 5\n        elif x % 7 == 0:\n            acc = acc - x * 7 + 2\n            flag = (flag + 3) % 5\n        elif x % 3 == 0:\n            acc = acc + x * 2 - (flag * 2)\n        elif x % 2 == 0:\n            acc = acc - x + 2 + flag\n        else:\n            acc = acc + x + flag + 2\n    return acc\n\nReply with only the integer."
+  },
+  {
+    "test_id": "table_query_extreme_5",
+    "family": "table_query_extreme",
+    "prompt": "Reply with only the integer. Rows: A team=black region=south score=2 weight=3 bonus=4 penalty=0; B team=black region=central score=14 weight=6 bonus=4 penalty=2; C team=black region=north score=5 weight=5 bonus=1 penalty=0; D team=gold region=north score=10 weight=2 bonus=3 penalty=0; E team=green region=south score=16 weight=2 bonus=0 penalty=0; F team=gold region=north score=16 weight=4 bonus=2 penalty=3; G team=red region=west score=8 weight=5 bonus=0 penalty=3; H team=gold region=north score=11 weight=6 bonus=0 penalty=1; I team=gold region=east score=10 weight=6 bonus=4 penalty=3; J team=green region=central score=4 weight=1 bonus=1 penalty=2; K team=black region=west score=10 weight=5 bonus=3 penalty=2; L team=gold region=west score=5 weight=2 bonus=5 penalty=1. Keep rows where team != blue, region != west, score >= 12, and bonus >= penalty. Sort remaining rows by weight ascending, then (score + bonus) descending, then name ascending. Take the first 5 rows after sorting. Return sum((score + bonus - penalty) * weight) over those rows."
+  },
+  {
+    "test_id": "fsm_extreme_5",
+    "family": "fsm_extreme",
+    "prompt": "Start in state E with counter=-2. Process tokens in order: y,y,x,y,z,z,y,z,z,x,z,x,x,x,z,z,z,z,x. Transition rules: A:x->(B,+2), A:y->(C,-1), A:z->(D,+1); B:x->(E,+1), B:y->(D,+2), B:z->(A,-2); C:x->(D,+3), C:y->(A,+1), C:z->(C,-1); D:x->(A,+2), D:y->(C,-2), D:z->(B,+1); E:x->(C,+2), E:y->(E,-1), E:z->(F,+3); F:x->(B,-1), F:y->(D,+4), F:z->(A,-3). Reply only as STATE,COUNTER."
+  },
+  {
+    "test_id": "window_scan_extreme_5",
+    "family": "window_scan_extreme",
+    "prompt": "Given the list [3, 5, 13, 4, 16, 11, 9, 2, 16, 11, 18, 19, 2, 18, 14, 7, 15, 2, 17, 19], examine every contiguous window of length 5. For a window, define score = 2*sum(odd values) - sum(even values) + count(values divisible by 3) + (max(window) - min(window)). Pick the highest-scoring window; if there is a tie, pick the smallest 1-indexed start. Reply only as START,SCORE."
+  },
+  {
+    "test_id": "json_contract_extreme_5",
+    "family": "json_contract_extreme",
+    "prompt": "Return only minified JSON with keys count,ids,score,winner in that exact order. Rows: A status=drop tier=gold qty=5 bonus=1 penalty=2; B status=drop tier=bronze qty=6 bonus=5 penalty=3; C status=hold tier=gold qty=7 bonus=1 penalty=1; D status=hold tier=bronze qty=7 bonus=3 penalty=1; E status=hold tier=silver qty=6 bonus=1 penalty=2; F status=hold tier=silver qty=7 bonus=5 penalty=2. Keep rows where status != drop, qty >= 6, and bonus >= penalty. Sort remaining rows by tier rank gold>silver>bronze, then by (qty + bonus - penalty) descending, then id ascending. Set winner to the first id after sorting, or NONE if nothing remains. Set ids to the first 4 remaining ids joined by |. Set score to sum((qty + bonus - penalty) * tierWeight), where bronze=1, silver=2, gold=3."
+  },
+  {
+    "test_id": "dependency_schedule_extreme_5",
+    "family": "dependency_schedule_extreme",
+    "prompt": "There are two identical workers. At time 0, repeatedly start the lexicographically smallest available task on each free worker. A task becomes available only when all of its prerequisites are finished. Tasks are non-preemptive. If multiple tasks finish at the same time, record them in alphabetical order in the finish log. Tasks: A dur=1 deps=-; B dur=4 deps=-; C dur=1 deps=B; D dur=2 deps=A; E dur=4 deps=D; F dur=4 deps=-; G dur=2 deps=A. Reply only as TOTAL|ORDER, where TOTAL is the final completion time and ORDER is the finish log."
+  }
+]

@@ -16,7 +16,7 @@ import model_gateway_tester as mgt
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Fresh fair benchmark for two to five models on OpenAI-compatible endpoints."
+        description="Fresh fair benchmark for two to six models on OpenAI-compatible endpoints."
     )
     parser.add_argument("--seed", type=int, default=None)
     parser.add_argument("--total-tests", type=int, default=20)
@@ -119,6 +119,26 @@ def parse_args() -> argparse.Namespace:
         default=None,
     )
     parser.add_argument(
+        "--model-f",
+        type=str,
+        default=None,
+    )
+    parser.add_argument(
+        "--name-f",
+        type=str,
+        default=None,
+    )
+    parser.add_argument(
+        "--base-url-f",
+        type=str,
+        default=None,
+    )
+    parser.add_argument(
+        "--api-key-f",
+        type=str,
+        default=None,
+    )
+    parser.add_argument(
         "--reasoning-effort",
         type=str,
         default="xhigh",
@@ -150,6 +170,7 @@ def main() -> int:
     prompts_output = args.prompts_output
     if prompts_output is None:
         prompts_output = args.output.with_name(args.output.stem + "_prompts.json")
+    checkpoint_output = args.output.with_name(args.output.stem + "_checkpoint.json")
 
     prompt_rows = [
         {
@@ -219,12 +240,24 @@ def main() -> int:
                 max_output_tokens=args.max_output_tokens,
             )
         )
+    if args.model_f:
+        providers.append(
+            mgt.ProviderConfig(
+                name=args.name_f or args.model_f,
+                url=args.base_url_f or args.base_url,
+                api_key=args.api_key_f or args.api_key,
+                model=args.model_f,
+                reasoning_mode="nested",
+                reasoning_effort=args.reasoning_effort,
+                max_output_tokens=args.max_output_tokens,
+            )
+        )
 
     rows: list[dict[str, object]] = []
     total_requests = len(tests) * len(providers)
     completed_requests = 0
 
-    for test in tests:
+    for test_index, test in enumerate(tests, start=1):
         print(
             f"[test {test.test_id}] dispatching {len(providers)} providers",
             file=sys.stderr,
@@ -260,6 +293,29 @@ def main() -> int:
         for provider in providers:
             rows.append(completed_for_test[provider.name])
 
+        checkpoint_report = fx.build_report(
+            seed=seed,
+            selection_meta=selection_meta,
+            providers=providers,
+            provider_names=[provider.name for provider in providers],
+            tests=tests,
+            rows=rows,
+            self_provider_name=None,
+            self_answers_file=None,
+            progress={
+                "completed_tests": test_index,
+                "total_tests": len(tests),
+                "completed_requests": completed_requests,
+                "total_requests": total_requests,
+                "status": "running",
+            },
+        )
+        checkpoint_report["meta"]["note"] = (
+            "Fresh fair benchmark on OpenAI-compatible endpoints with every model using "
+            "the same reasoning.effort and the same max_output_tokens."
+        )
+        checkpoint_output.write_text(json.dumps(checkpoint_report, ensure_ascii=False, indent=2))
+
     provider_names = [provider.name for provider in providers]
     report = fx.build_report(
         seed=seed,
@@ -283,11 +339,13 @@ def main() -> int:
         "the same reasoning.effort and the same max_output_tokens."
     )
     args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2))
+    checkpoint_output.write_text(json.dumps(report, ensure_ascii=False, indent=2))
 
     print(
         json.dumps(
             {
                 "output": str(args.output),
+                "checkpoint_output": str(checkpoint_output),
                 "prompts_output": str(prompts_output),
                 "leaderboard": report["leaderboard"],
             },
