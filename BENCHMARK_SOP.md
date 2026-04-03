@@ -20,7 +20,7 @@ Do not compare runs if one model gets a larger `max_output_tokens` than the othe
 
 ## Current Suite Shape
 
-The built-in `extreme` generator now mixes seven structured-but-dynamic families:
+The built-in `extreme` generator now mixes ten structured-but-dynamic families:
 
 - `register_machine_extreme`
 - `table_query_extreme`
@@ -29,6 +29,9 @@ The built-in `extreme` generator now mixes seven structured-but-dynamic families
 - `window_scan_extreme`
 - `json_contract_extreme`
 - `dependency_schedule_extreme`
+- `long_trace_extreme`
+- `mixed_pipeline_extreme`
+- `edge_case_filter_extreme`
 
 This is materially better than the old three-family setup, but it is still a synthetic reasoning suite rather than a general intelligence benchmark.
 
@@ -77,12 +80,12 @@ If a route returns `completed` with no `output_text`:
 
 ## Next Upgrade Path
 
-To improve separation even further, add more dynamic families beyond the current seven:
+To improve separation even further, add more dynamic families beyond the current ten:
 
-- longer chained program traces
-- stricter JSON schema conformance
-- adversarial instruction traps
 - longer context row filtering
 - multi-family mixed reasoning tasks
+- stricter nested JSON/schema contracts
+- stronger adversarial instruction traps
+- hybrid tasks that combine 3+ substeps
 
 Do that in [model_gateway_tester.py](/Users/moonlitpoet/Tools/model-gateway-tester/model_gateway_tester.py), then reuse the existing harness scripts without changing the scoring pipeline.
