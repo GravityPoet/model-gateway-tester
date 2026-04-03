@@ -1,0 +1,152 @@
+[
+  {
+    "test_id": "register_machine_extreme_1",
+    "family": "register_machine_extreme",
+    "prompt": "Without showing work, what integer does this Python function return?\n\ndef run():\n    acc = -6\n    flag = 3\n    nums = [5, 23, 7, 12, 15, 19, 4, 9, 3, 6, 22, 14, 16, 8, 20]\n    for x in nums:\n        if (x + flag) % 5 == 0:\n            acc = acc * 4 + x - flag\n            flag = (flag + 1) % 5\n        elif x % 7 == 0:\n            acc = acc - x * 7 + 3\n            flag = (flag + 3) % 5\n        elif x % 3 == 0:\n            acc = acc + x * 3 - (flag * 2)\n        elif x % 2 == 0:\n            acc = acc - x + 3 + flag\n        else:\n            acc = acc + x + flag + 3\n    return acc\n\nReply with only the integer."
+  },
+  {
+    "test_id": "table_query_extreme_1",
+    "family": "table_query_extreme",
+    "prompt": "Reply with only the integer. Rows: A team=black region=central score=2 weight=5 bonus=1 penalty=3; B team=blue region=south score=10 weight=1 bonus=2 penalty=2; C team=blue region=central score=4 weight=5 bonus=1 penalty=1; D team=gold region=central score=5 weight=1 bonus=0 penalty=1; E team=red region=north score=18 weight=5 bonus=2 penalty=2; F team=red region=north score=4 weight=5 bonus=2 penalty=3; G team=gold region=central score=17 weight=4 bonus=3 penalty=1; H team=gold region=west score=9 weight=6 bonus=2 penalty=0; I team=gold region=west score=12 weight=2 bonus=4 penalty=2; J team=red region=east score=11 weight=5 bonus=2 penalty=3; K team=gold region=central score=8 weight=3 bonus=3 penalty=0; L team=red region=central score=5 weight=3 bonus=2 penalty=1. Keep rows where team != green, region != south, score >= 7, and bonus >= penalty. Sort remaining rows by weight ascending, then (score + bonus) descending, then name ascending. Take the first 5 rows after sorting. Return sum((score + bonus - penalty) * weight) over those rows."
+  },
+  {
+    "test_id": "fsm_extreme_1",
+    "family": "fsm_extreme",
+    "prompt": "Start in state C with counter=-3. Process tokens in order: y,x,z,x,x,x,x,z,z,y,x,y,x,y,y,x. Transition rules: A:x->(B,+2), A:y->(C,-1), A:z->(D,+1); B:x->(E,+1), B:y->(D,+2), B:z->(A,-2); C:x->(D,+3), C:y->(A,+1), C:z->(C,-1); D:x->(A,+2), D:y->(C,-2), D:z->(B,+1); E:x->(C,+2), E:y->(E,-1), E:z->(F,+3); F:x->(B,-1), F:y->(D,+4), F:z->(A,-3). Reply only as STATE,COUNTER."
+  },
+  {
+    "test_id": "register_machine_extreme_2",
+    "family": "register_machine_extreme",
+    "prompt": "Without showing work, what integer does this Python function return?\n\ndef run():\n    acc = -4\n    flag = 4\n    nums = [10, 16, 13, 8, 7, 5, 6, 20, 18, 4, 15, 9, 12, 3, 11, 19, 14, 22]\n    for x in nums:\n        if (x + flag) % 5 == 0:\n            acc = acc * 4 + x - flag\n            flag = (flag + 1) % 5\n        elif x % 7 == 0:\n            acc = acc - x * 5 + 3\n            flag = (flag + 3) % 5\n        elif x % 3 == 0:\n            acc = acc + x * 3 - (flag * 2)\n        elif x % 2 == 0:\n            acc = acc - x + 3 + flag\n        else:\n            acc = acc + x + flag + 3\n    return acc\n\nReply with only the integer."
+  },
+  {
+    "test_id": "table_query_extreme_2",
+    "family": "table_query_extreme",
+    "prompt": "Reply with only the integer. Rows: A team=blue region=central score=15 weight=1 bonus=0 penalty=1; B team=gold region=south score=9 weight=6 bonus=0 penalty=0; C team=gold region=south score=14 weight=1 bonus=1 penalty=2; D team=black region=west score=6 weight=1 bonus=3 penalty=2; E team=blue region=east score=16 weight=2 bonus=0 penalty=2; F team=gold region=south score=2 weight=4 bonus=5 penalty=1; G team=black region=east score=5 weight=5 bonus=2 penalty=1; H team=blue region=north score=12 weight=4 bonus=1 penalty=3; I team=blue region=central score=16 weight=1 bonus=3 penalty=3; J team=black region=central score=7 weight=4 bonus=1 penalty=2. Keep rows where team != gold, region != north, score >= 11, and bonus >= penalty. Sort remaining rows by weight ascending, then (score + bonus) descending, then name ascending. Take the first 5 rows after sorting. Return sum((score + bonus - penalty) * weight) over those rows."
+  },
+  {
+    "test_id": "fsm_extreme_2",
+    "family": "fsm_extreme",
+    "prompt": "Start in state F with counter=-2. Process tokens in order: z,x,x,z,z,y,z,z,y,z,y,y,y,x,z,x,x,x,z,x. Transition rules: A:x->(B,+2), A:y->(C,-1), A:z->(D,+1); B:x->(E,+1), B:y->(D,+2), B:z->(A,-2); C:x->(D,+3), C:y->(A,+1), C:z->(C,-1); D:x->(A,+2), D:y->(C,-2), D:z->(B,+1); E:x->(C,+2), E:y->(E,-1), E:z->(F,+3); F:x->(B,-1), F:y->(D,+4), F:z->(A,-3). Reply only as STATE,COUNTER."
+  },
+  {
+    "test_id": "register_machine_extreme_3",
+    "family": "register_machine_extreme",
+    "prompt": "Without showing work, what integer does this Python function return?\n\ndef run():\n    acc = -5\n    flag = 1\n    nums = [10, 12, 21, 22, 8, 17, 7, 3, 5, 15, 18, 6, 2, 20, 16]\n    for x in nums:\n        if (x + flag) % 5 == 0:\n            acc = acc * 5 + x - flag\n            flag = (flag + 1) % 5\n        elif x % 7 == 0:\n            acc = acc - x * 7 + 4\n            flag = (flag + 3) % 5\n        elif x % 3 == 0:\n            acc = acc + x * 4 - (flag * 2)\n        elif x % 2 == 0:\n            acc = acc - x + 4 + flag\n        else:\n            acc = acc + x + flag + 4\n    return acc\n\nReply with only the integer."
+  },
+  {
+    "test_id": "table_query_extreme_3",
+    "family": "table_query_extreme",
+    "prompt": "Reply with only the integer. Rows: A team=black region=east score=12 weight=4 bonus=2 penalty=2; B team=blue region=east score=11 weight=4 bonus=3 penalty=0; C team=blue region=north score=9 weight=6 bonus=1 penalty=3; D team=black region=central score=2 weight=6 bonus=2 penalty=1; E team=black region=south score=17 weight=4 bonus=1 penalty=1; F team=gold region=east score=4 weight=1 bonus=4 penalty=3; G team=green region=central score=16 weight=2 bonus=0 penalty=2; H team=blue region=north score=4 weight=5 bonus=4 penalty=3; I team=blue region=north score=4 weight=1 bonus=3 penalty=0; J team=green region=central score=4 weight=4 bonus=1 penalty=2; K team=gold region=south score=11 weight=4 bonus=2 penalty=1. Keep rows where team != black, region != east, score >= 8, and bonus >= penalty. Sort remaining rows by weight ascending, then (score + bonus) descending, then name ascending. Take the first 5 rows after sorting. Return sum((score + bonus - penalty) * weight) over those rows."
+  },
+  {
+    "test_id": "fsm_extreme_3",
+    "family": "fsm_extreme",
+    "prompt": "Start in state C with counter=1. Process tokens in order: z,y,y,x,z,x,x,z,y,z,y,z,y,z,z,x,y,x,y,y. Transition rules: A:x->(B,+2), A:y->(C,-1), A:z->(D,+1); B:x->(E,+1), B:y->(D,+2), B:z->(A,-2); C:x->(D,+3), C:y->(A,+1), C:z->(C,-1); D:x->(A,+2), D:y->(C,-2), D:z->(B,+1); E:x->(C,+2), E:y->(E,-1), E:z->(F,+3); F:x->(B,-1), F:y->(D,+4), F:z->(A,-3). Reply only as STATE,COUNTER."
+  },
+  {
+    "test_id": "register_machine_extreme_4",
+    "family": "register_machine_extreme",
+    "prompt": "Without showing work, what integer does this Python function return?\n\ndef run():\n    acc = -10\n    flag = 2\n    nums = [3, 22, 23, 7, 8, 15, 20, 17, 4, 16, 18, 19, 2, 5, 13, 10]\n    for x in nums:\n        if (x + flag) % 5 == 0:\n            acc = acc * 6 + x - flag\n            flag = (flag + 1) % 5\n        elif x % 7 == 0:\n            acc = acc - x * 3 + 3\n            flag = (flag + 3) % 5\n        elif x % 3 == 0:\n            acc = acc + x * 3 - (flag * 2)\n        elif x % 2 == 0:\n            acc = acc - x + 3 + flag\n        else:\n            acc = acc + x + flag + 3\n    return acc\n\nReply with only the integer."
+  },
+  {
+    "test_id": "table_query_extreme_4",
+    "family": "table_query_extreme",
+    "prompt": "Reply with only the integer. Rows: A team=red region=central score=5 weight=6 bonus=0 penalty=0; B team=blue region=east score=2 weight=3 bonus=0 penalty=1; C team=gold region=east score=14 weight=4 bonus=5 penalty=3; D team=gold region=west score=2 weight=5 bonus=4 penalty=0; E team=green region=south score=6 weight=5 bonus=2 penalty=2; F team=blue region=central score=14 weight=4 bonus=4 penalty=1; G team=green region=south score=14 weight=6 bonus=0 penalty=2; H team=gold region=south score=17 weight=3 bonus=3 penalty=1; I team=blue region=south score=10 weight=3 bonus=2 penalty=0; J team=blue region=west score=17 weight=2 bonus=3 penalty=3. Keep rows where team != black, region != west, score >= 9, and bonus >= penalty. Sort remaining rows by weight ascending, then (score + bonus) descending, then name ascending. Take the first 5 rows after sorting. Return sum((score + bonus - penalty) * weight) over those rows."
+  },
+  {
+    "test_id": "fsm_extreme_4",
+    "family": "fsm_extreme",
+    "prompt": "Start in state E with counter=4. Process tokens in order: z,y,y,x,x,z,x,x,z,x,y,x,y,x,z,x,z,y,y. Transition rules: A:x->(B,+2), A:y->(C,-1), A:z->(D,+1); B:x->(E,+1), B:y->(D,+2), B:z->(A,-2); C:x->(D,+3), C:y->(A,+1), C:z->(C,-1); D:x->(A,+2), D:y->(C,-2), D:z->(B,+1); E:x->(C,+2), E:y->(E,-1), E:z->(F,+3); F:x->(B,-1), F:y->(D,+4), F:z->(A,-3). Reply only as STATE,COUNTER."
+  },
+  {
+    "test_id": "register_machine_extreme_5",
+    "family": "register_machine_extreme",
+    "prompt": "Without showing work, what integer does this Python function return?\n\ndef run():\n    acc = -3\n    flag = 4\n    nums = [12, 19, 10, 2, 4, 3, 9, 22, 6, 11, 17, 14, 15, 21, 13]\n    for x in nums:\n        if (x + flag) % 5 == 0:\n            acc = acc * 5 + x - flag\n            flag = (flag + 1) % 5\n        elif x % 7 == 0:\n            acc = acc - x * 6 + 4\n            flag = (flag + 3) % 5\n        elif x % 3 == 0:\n            acc = acc + x * 4 - (flag * 2)\n        elif x % 2 == 0:\n            acc = acc - x + 4 + flag\n        else:\n            acc = acc + x + flag + 4\n    return acc\n\nReply with only the integer."
+  },
+  {
+    "test_id": "table_query_extreme_5",
+    "family": "table_query_extreme",
+    "prompt": "Reply with only the integer. Rows: A team=blue region=east score=5 weight=5 bonus=3 penalty=3; B team=black region=west score=16 weight=2 bonus=2 penalty=0; C team=blue region=east score=12 weight=2 bonus=1 penalty=3; D team=blue region=west score=14 weight=3 bonus=4 penalty=3; E team=green region=south score=4 weight=2 bonus=4 penalty=2; F team=green region=south score=4 weight=2 bonus=1 penalty=3; G team=black region=west score=14 weight=2 bonus=2 penalty=2; H team=black region=east score=15 weight=6 bonus=0 penalty=2; I team=green region=central score=17 weight=4 bonus=2 penalty=3; J team=gold region=central score=4 weight=5 bonus=3 penalty=2; K team=blue region=east score=17 weight=6 bonus=2 penalty=3. Keep rows where team != red, region != west, score >= 12, and bonus >= penalty. Sort remaining rows by weight ascending, then (score + bonus) descending, then name ascending. Take the first 5 rows after sorting. Return sum((score + bonus - penalty) * weight) over those rows."
+  },
+  {
+    "test_id": "fsm_extreme_5",
+    "family": "fsm_extreme",
+    "prompt": "Start in state E with counter=-3. Process tokens in order: y,y,y,z,y,y,y,y,y,y,y,x,y,x,x,z,y,z,y,y. Transition rules: A:x->(B,+2), A:y->(C,-1), A:z->(D,+1); B:x->(E,+1), B:y->(D,+2), B:z->(A,-2); C:x->(D,+3), C:y->(A,+1), C:z->(C,-1); D:x->(A,+2), D:y->(C,-2), D:z->(B,+1); E:x->(C,+2), E:y->(E,-1), E:z->(F,+3); F:x->(B,-1), F:y->(D,+4), F:z->(A,-3). Reply only as STATE,COUNTER."
+  },
+  {
+    "test_id": "register_machine_extreme_6",
+    "family": "register_machine_extreme",
+    "prompt": "Without showing work, what integer does this Python function return?\n\ndef run():\n    acc = 3\n    flag = 2\n    nums = [10, 8, 6, 23, 19, 7, 2, 17, 4, 21, 12, 11, 15, 5, 14]\n    for x in nums:\n        if (x + flag) % 5 == 0:\n            acc = acc * 3 + x - flag\n            flag = (flag + 1) % 5\n        elif x % 7 == 0:\n            acc = acc - x * 5 + 3\n            flag = (flag + 3) % 5\n        elif x % 3 == 0:\n            acc = acc + x * 3 - (flag * 2)\n        elif x % 2 == 0:\n            acc = acc - x + 3 + flag\n        else:\n            acc = acc + x + flag + 3\n    return acc\n\nReply with only the integer."
+  },
+  {
+    "test_id": "table_query_extreme_6",
+    "family": "table_query_extreme",
+    "prompt": "Reply with only the integer. Rows: A team=green region=west score=14 weight=5 bonus=2 penalty=2; B team=blue region=east score=3 weight=3 bonus=4 penalty=0; C team=gold region=north score=10 weight=1 bonus=5 penalty=3; D team=gold region=south score=12 weight=1 bonus=0 penalty=0; E team=gold region=north score=13 weight=3 bonus=5 penalty=3; F team=green region=south score=15 weight=6 bonus=2 penalty=0; G team=blue region=central score=8 weight=2 bonus=0 penalty=0; H team=blue region=north score=14 weight=2 bonus=2 penalty=2; I team=red region=west score=18 weight=6 bonus=5 penalty=2; J team=black region=central score=11 weight=5 bonus=0 penalty=2; K team=green region=west score=4 weight=5 bonus=4 penalty=1; L team=black region=north score=14 weight=2 bonus=2 penalty=1; M team=blue region=north score=9 weight=1 bonus=1 penalty=1. Keep rows where team != red, region != central, score >= 11, and bonus >= penalty. Sort remaining rows by weight ascending, then (score + bonus) descending, then name ascending. Take the first 5 rows after sorting. Return sum((score + bonus - penalty) * weight) over those rows."
+  },
+  {
+    "test_id": "fsm_extreme_6",
+    "family": "fsm_extreme",
+    "prompt": "Start in state C with counter=3. Process tokens in order: x,z,z,x,y,z,y,y,x,z,z,z,z,x,x,y,z,y. Transition rules: A:x->(B,+2), A:y->(C,-1), A:z->(D,+1); B:x->(E,+1), B:y->(D,+2), B:z->(A,-2); C:x->(D,+3), C:y->(A,+1), C:z->(C,-1); D:x->(A,+2), D:y->(C,-2), D:z->(B,+1); E:x->(C,+2), E:y->(E,-1), E:z->(F,+3); F:x->(B,-1), F:y->(D,+4), F:z->(A,-3). Reply only as STATE,COUNTER."
+  },
+  {
+    "test_id": "register_machine_extreme_7",
+    "family": "register_machine_extreme",
+    "prompt": "Without showing work, what integer does this Python function return?\n\ndef run():\n    acc = -7\n    flag = 3\n    nums = [12, 14, 4, 2, 15, 16, 10, 13, 6, 18, 21, 19, 23, 3, 8, 17, 20, 7]\n    for x in nums:\n        if (x + flag) % 5 == 0:\n            acc = acc * 4 + x - flag\n            flag = (flag + 1) % 5\n        elif x % 7 == 0:\n            acc = acc - x * 6 + 5\n            flag = (flag + 3) % 5\n        elif x % 3 == 0:\n            acc = acc + x * 5 - (flag * 2)\n        elif x % 2 == 0:\n            acc = acc - x + 5 + flag\n        else:\n            acc = acc + x + flag + 5\n    return acc\n\nReply with only the integer."
+  },
+  {
+    "test_id": "table_query_extreme_7",
+    "family": "table_query_extreme",
+    "prompt": "Reply with only the integer. Rows: A team=blue region=north score=11 weight=1 bonus=2 penalty=0; B team=blue region=west score=5 weight=3 bonus=4 penalty=1; C team=black region=central score=5 weight=5 bonus=1 penalty=0; D team=black region=south score=14 weight=4 bonus=0 penalty=0; E team=green region=north score=2 weight=4 bonus=3 penalty=3; F team=gold region=east score=8 weight=2 bonus=5 penalty=0; G team=red region=east score=17 weight=2 bonus=1 penalty=2; H team=green region=east score=18 weight=6 bonus=5 penalty=1; I team=blue region=east score=9 weight=4 bonus=2 penalty=3; J team=gold region=central score=6 weight=5 bonus=2 penalty=0; K team=green region=central score=3 weight=6 bonus=1 penalty=1. Keep rows where team != black, region != north, score >= 7, and bonus >= penalty. Sort remaining rows by weight ascending, then (score + bonus) descending, then name ascending. Take the first 5 rows after sorting. Return sum((score + bonus - penalty) * weight) over those rows."
+  },
+  {
+    "test_id": "fsm_extreme_7",
+    "family": "fsm_extreme",
+    "prompt": "Start in state A with counter=0. Process tokens in order: x,x,z,z,x,y,x,z,y,y,x,z,y,x,y,y,z. Transition rules: A:x->(B,+2), A:y->(C,-1), A:z->(D,+1); B:x->(E,+1), B:y->(D,+2), B:z->(A,-2); C:x->(D,+3), C:y->(A,+1), C:z->(C,-1); D:x->(A,+2), D:y->(C,-2), D:z->(B,+1); E:x->(C,+2), E:y->(E,-1), E:z->(F,+3); F:x->(B,-1), F:y->(D,+4), F:z->(A,-3). Reply only as STATE,COUNTER."
+  },
+  {
+    "test_id": "register_machine_extreme_8",
+    "family": "register_machine_extreme",
+    "prompt": "Without showing work, what integer does this Python function return?\n\ndef run():\n    acc = 2\n    flag = 2\n    nums = [8, 5, 11, 2, 17, 21, 15, 23, 12, 16, 7, 14, 10, 4, 9, 22, 18]\n    for x in nums:\n        if (x + flag) % 5 == 0:\n            acc = acc * 2 + x - flag\n            flag = (flag + 1) % 5\n        elif x % 7 == 0:\n            acc = acc - x * 5 + 3\n            flag = (flag + 3) % 5\n        elif x % 3 == 0:\n            acc = acc + x * 3 - (flag * 2)\n        elif x % 2 == 0:\n            acc = acc - x + 3 + flag\n        else:\n            acc = acc + x + flag + 3\n    return acc\n\nReply with only the integer."
+  },
+  {
+    "test_id": "table_query_extreme_8",
+    "family": "table_query_extreme",
+    "prompt": "Reply with only the integer. Rows: A team=blue region=east score=13 weight=1 bonus=3 penalty=3; B team=red region=central score=3 weight=5 bonus=2 penalty=3; C team=red region=north score=18 weight=3 bonus=1 penalty=2; D team=red region=north score=11 weight=2 bonus=3 penalty=0; E team=gold region=west score=7 weight=6 bonus=5 penalty=1; F team=green region=east score=7 weight=3 bonus=5 penalty=0; G team=green region=east score=12 weight=5 bonus=1 penalty=1; H team=blue region=north score=6 weight=2 bonus=2 penalty=0; I team=red region=north score=15 weight=4 bonus=3 penalty=2; J team=red region=central score=14 weight=5 bonus=5 penalty=2; K team=blue region=central score=2 weight=1 bonus=2 penalty=3. Keep rows where team != gold, region != south, score >= 9, and bonus >= penalty. Sort remaining rows by weight ascending, then (score + bonus) descending, then name ascending. Take the first 5 rows after sorting. Return sum((score + bonus - penalty) * weight) over those rows."
+  },
+  {
+    "test_id": "fsm_extreme_8",
+    "family": "fsm_extreme",
+    "prompt": "Start in state C with counter=-1. Process tokens in order: z,x,y,y,z,z,z,z,x,z,z,y,x,z,z,y,y,x,y,z. Transition rules: A:x->(B,+2), A:y->(C,-1), A:z->(D,+1); B:x->(E,+1), B:y->(D,+2), B:z->(A,-2); C:x->(D,+3), C:y->(A,+1), C:z->(C,-1); D:x->(A,+2), D:y->(C,-2), D:z->(B,+1); E:x->(C,+2), E:y->(E,-1), E:z->(F,+3); F:x->(B,-1), F:y->(D,+4), F:z->(A,-3). Reply only as STATE,COUNTER."
+  },
+  {
+    "test_id": "register_machine_extreme_9",
+    "family": "register_machine_extreme",
+    "prompt": "Without showing work, what integer does this Python function return?\n\ndef run():\n    acc = -6\n    flag = 0\n    nums = [9, 19, 10, 17, 13, 4, 18, 3, 11, 12, 22, 8, 14, 6]\n    for x in nums:\n        if (x + flag) % 5 == 0:\n            acc = acc * 2 + x - flag\n            flag = (flag + 1) % 5\n        elif x % 7 == 0:\n            acc = acc - x * 4 + 4\n            flag = (flag + 3) % 5\n        elif x % 3 == 0:\n            acc = acc + x * 4 - (flag * 2)\n        elif x % 2 == 0:\n            acc = acc - x + 4 + flag\n        else:\n            acc = acc + x + flag + 4\n    return acc\n\nReply with only the integer."
+  },
+  {
+    "test_id": "table_query_extreme_9",
+    "family": "table_query_extreme",
+    "prompt": "Reply with only the integer. Rows: A team=red region=south score=5 weight=5 bonus=5 penalty=0; B team=red region=north score=9 weight=6 bonus=4 penalty=1; C team=black region=north score=15 weight=3 bonus=2 penalty=2; D team=blue region=north score=13 weight=1 bonus=5 penalty=2; E team=blue region=central score=18 weight=1 bonus=2 penalty=1; F team=green region=south score=7 weight=1 bonus=4 penalty=3; G team=green region=central score=3 weight=2 bonus=3 penalty=3; H team=red region=north score=12 weight=2 bonus=0 penalty=2; I team=blue region=east score=11 weight=6 bonus=1 penalty=0; J team=gold region=central score=16 weight=3 bonus=0 penalty=1; K team=green region=north score=7 weight=2 bonus=0 penalty=0; L team=green region=central score=12 weight=4 bonus=3 penalty=3; M team=blue region=north score=11 weight=2 bonus=1 penalty=3. Keep rows where team != blue, region != south, score >= 8, and bonus >= penalty. Sort remaining rows by weight ascending, then (score + bonus) descending, then name ascending. Take the first 5 rows after sorting. Return sum((score + bonus - penalty) * weight) over those rows."
+  },
+  {
+    "test_id": "fsm_extreme_9",
+    "family": "fsm_extreme",
+    "prompt": "Start in state B with counter=2. Process tokens in order: x,y,y,y,x,y,x,y,x,x,z,z,z,y,z,x,y,y,z. Transition rules: A:x->(B,+2), A:y->(C,-1), A:z->(D,+1); B:x->(E,+1), B:y->(D,+2), B:z->(A,-2); C:x->(D,+3), C:y->(A,+1), C:z->(C,-1); D:x->(A,+2), D:y->(C,-2), D:z->(B,+1); E:x->(C,+2), E:y->(E,-1), E:z->(F,+3); F:x->(B,-1), F:y->(D,+4), F:z->(A,-3). Reply only as STATE,COUNTER."
+  },
+  {
+    "test_id": "register_machine_extreme_10",
+    "family": "register_machine_extreme",
+    "prompt": "Without showing work, what integer does this Python function return?\n\ndef run():\n    acc = -5\n    flag = 3\n    nums = [15, 5, 10, 14, 6, 8, 23, 12, 20, 9, 18, 3, 11, 17, 22]\n    for x in nums:\n        if (x + flag) % 5 == 0:\n            acc = acc * 3 + x - flag\n            flag = (flag + 1) % 5\n        elif x % 7 == 0:\n            acc = acc - x * 7 + 1\n            flag = (flag + 3) % 5\n        elif x % 3 == 0:\n            acc = acc + x * 1 - (flag * 2)\n        elif x % 2 == 0:\n            acc = acc - x + 1 + flag\n        else:\n            acc = acc + x + flag + 1\n    return acc\n\nReply with only the integer."
+  },
+  {
+    "test_id": "table_query_extreme_10",
+    "family": "table_query_extreme",
+    "prompt": "Reply with only the integer. Rows: A team=green region=south score=5 weight=5 bonus=4 penalty=2; B team=blue region=central score=13 weight=6 bonus=2 penalty=0; C team=red region=west score=4 weight=1 bonus=4 penalty=0; D team=red region=south score=17 weight=4 bonus=5 penalty=2; E team=black region=north score=2 weight=3 bonus=4 penalty=2; F team=blue region=south score=16 weight=3 bonus=5 penalty=2; G team=red region=south score=7 weight=2 bonus=4 penalty=1; H team=green region=east score=4 weight=2 bonus=5 penalty=1; I team=blue region=east score=14 weight=4 bonus=3 penalty=1; J team=blue region=central score=18 weight=4 bonus=3 penalty=3; K team=black region=east score=10 weight=5 bonus=5 penalty=0; L team=gold region=north score=14 weight=2 bonus=5 penalty=1. Keep rows where team != red, region != north, score >= 10, and bonus >= penalty. Sort remaining rows by weight ascending, then (score + bonus) descending, then name ascending. Take the first 5 rows after sorting. Return sum((score + bonus - penalty) * weight) over those rows."
+  },
+  {
+    "test_id": "fsm_extreme_10",
+    "family": "fsm_extreme",
+    "prompt": "Start in state D with counter=-2. Process tokens in order: y,x,z,z,x,x,y,y,x,y,z,y,y,x,x,z. Transition rules: A:x->(B,+2), A:y->(C,-1), A:z->(D,+1); B:x->(E,+1), B:y->(D,+2), B:z->(A,-2); C:x->(D,+3), C:y->(A,+1), C:z->(C,-1); D:x->(A,+2), D:y->(C,-2), D:z->(B,+1); E:x->(C,+2), E:y->(E,-1), E:z->(F,+3); F:x->(B,-1), F:y->(D,+4), F:z->(A,-3). Reply only as STATE,COUNTER."
+  }
+]

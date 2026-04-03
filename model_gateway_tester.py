@@ -19,7 +19,10 @@ from typing import Any
 try:
     import tomllib
 except ModuleNotFoundError:  # pragma: no cover
-    import tomli as tomllib  # type: ignore
+    try:
+        import tomli as tomllib  # type: ignore
+    except ModuleNotFoundError:  # pragma: no cover
+        tomllib = None  # type: ignore
 
 
 @dataclass
@@ -160,6 +163,10 @@ def parse_args() -> argparse.Namespace:
 
 
 def load_longent_key(config_path: pathlib.Path) -> str:
+    if tomllib is None:
+        raise ModuleNotFoundError(
+            "tomllib/tomli is required to read the Longent config file"
+        )
     data = tomllib.loads(config_path.read_text())
     key = (
         data.get("model_providers", {})
@@ -171,6 +178,20 @@ def load_longent_key(config_path: pathlib.Path) -> str:
             f"Could not find model_providers.longent.experimental_bearer_token in {config_path}"
         )
     return key
+
+
+def difficulty_family_count(difficulty: str) -> int:
+    if difficulty == "standard":
+        return 6
+    if difficulty == "hard":
+        return 3
+    if difficulty == "very-hard":
+        return 3
+    if difficulty == "extreme":
+        return 7
+    if difficulty == "mixed":
+        return 9
+    raise ValueError(f"Unknown difficulty: {difficulty}")
 
 
 def build_dynamic_test_suite(
@@ -778,6 +799,236 @@ def build_dynamic_test_suite(
             source="dynamic",
         )
 
+    def mk_stack_machine_extreme(idx: int) -> TestCase:
+        stack = rng.sample(range(2, 12), 3)
+        start_stack = list(stack)
+        ops: list[str] = []
+
+        for _ in range(rng.randint(15, 19)):
+            valid_ops = ["PUSH", "DUP", "TWIST"]
+            if len(stack) >= 2:
+                valid_ops.extend(["SWAP", "ADD", "SUB", "MULADD"])
+            if len(stack) >= 3:
+                valid_ops.append("ROT")
+            if len(stack) >= 7:
+                valid_ops = [op for op in valid_ops if op not in {"PUSH", "DUP"}]
+
+            op = rng.choice(valid_ops)
+            if op == "PUSH":
+                value = rng.randint(2, 13)
+                stack.append(value)
+                ops.append(f"PUSH{value}")
+            elif op == "DUP":
+                stack.append(stack[-1])
+                ops.append("DUP")
+            elif op == "TWIST":
+                k = rng.randint(1, 4)
+                x = stack.pop()
+                stack.append(x // 2 + k if x % 2 == 0 else x * 2 - k)
+                ops.append(f"TWIST{k}")
+            elif op == "SWAP":
+                stack[-1], stack[-2] = stack[-2], stack[-1]
+                ops.append("SWAP")
+            elif op == "ROT":
+                a, b, c = stack[-3:]
+                stack[-3:] = [b, c, a]
+                ops.append("ROT")
+            elif op == "ADD":
+                b = stack.pop()
+                a = stack.pop()
+                stack.append(a + b)
+                ops.append("ADD")
+            elif op == "SUB":
+                b = stack.pop()
+                a = stack.pop()
+                stack.append(a - b)
+                ops.append("SUB")
+            else:
+                k = rng.randint(1, 5)
+                b = stack.pop()
+                a = stack.pop()
+                stack.append(a * b + k)
+                ops.append(f"MULADD{k}")
+
+        expected = ",".join(str(x) for x in reversed(stack))
+        prompt = (
+            f"Start with stack bottom->top {start_stack}. Apply operations in order: {', '.join(ops)}. "
+            "Rules: PUSHn pushes n; DUP duplicates top; SWAP swaps top two; ROT turns top three "
+            "from [a,b,c] into [b,c,a]; ADD pops a,b and pushes a+b; SUB pops a,b and pushes a-b "
+            "where b is the top and a is the next item; MULADDk pops a,b and pushes a*b+k; "
+            "TWISTk replaces top x with x//2+k if x is even, otherwise x*2-k. "
+            "Reply only with the final stack top->bottom as comma-separated integers."
+        )
+        return TestCase(
+            test_id=f"stack_machine_extreme_{idx}",
+            family="stack_machine_extreme",
+            prompt=prompt,
+            expected=expected,
+            source="dynamic",
+        )
+
+    def mk_window_scan_extreme(idx: int) -> TestCase:
+        arr = [rng.randint(2, 19) for _ in range(rng.randint(16, 21))]
+        window = rng.randint(5, 7)
+        best_start = 0
+        best_score: int | None = None
+        for start in range(0, len(arr) - window + 1):
+            window_values = arr[start : start + window]
+            score = (
+                sum(x * 2 for x in window_values if x % 2 == 1)
+                - sum(x for x in window_values if x % 2 == 0)
+                + sum(1 for x in window_values if x % 3 == 0)
+                + (max(window_values) - min(window_values))
+            )
+            if best_score is None or score > best_score:
+                best_start = start
+                best_score = score
+        prompt = (
+            f"Given the list {arr}, examine every contiguous window of length {window}. "
+            "For a window, define score = 2*sum(odd values) - sum(even values) + "
+            "count(values divisible by 3) + (max(window) - min(window)). "
+            "Pick the highest-scoring window; if there is a tie, pick the smallest 1-indexed start. "
+            "Reply only as START,SCORE."
+        )
+        return TestCase(
+            test_id=f"window_scan_extreme_{idx}",
+            family="window_scan_extreme",
+            prompt=prompt,
+            expected=f"{best_start + 1},{best_score}",
+            source="dynamic",
+        )
+
+    def mk_json_contract_extreme(idx: int) -> TestCase:
+        tier_weight = {"bronze": 1, "silver": 2, "gold": 3}
+        statuses = ["live", "hold", "drop", "review"]
+        tiers = ["bronze", "silver", "gold"]
+        rows = []
+        for i in range(rng.randint(6, 8)):
+            rows.append(
+                {
+                    "id": chr(ord("A") + i),
+                    "status": rng.choice(statuses),
+                    "tier": rng.choice(tiers),
+                    "qty": rng.randint(3, 11),
+                    "bonus": rng.randint(0, 5),
+                    "penalty": rng.randint(0, 3),
+                }
+            )
+
+        threshold = rng.randint(6, 10)
+        selected = [
+            row
+            for row in rows
+            if row["status"] != "drop"
+            and row["qty"] >= threshold
+            and row["bonus"] >= row["penalty"]
+        ]
+        selected.sort(
+            key=lambda row: (
+                -tier_weight[row["tier"]],
+                -(row["qty"] + row["bonus"] - row["penalty"]),
+                row["id"],
+            )
+        )
+        winner = selected[0]["id"] if selected else "NONE"
+        score = sum(
+            (row["qty"] + row["bonus"] - row["penalty"]) * tier_weight[row["tier"]]
+            for row in selected
+        )
+        ids = "|".join(row["id"] for row in selected[:4])
+        expected = json.dumps(
+            {
+                "count": len(selected),
+                "ids": ids,
+                "score": score,
+                "winner": winner,
+            },
+            separators=(",", ":"),
+        )
+        prompt_rows = "; ".join(
+            f"{row['id']} status={row['status']} tier={row['tier']} qty={row['qty']} bonus={row['bonus']} penalty={row['penalty']}"
+            for row in rows
+        )
+        prompt = (
+            "Return only minified JSON with keys count,ids,score,winner in that exact order. "
+            f"Rows: {prompt_rows}. "
+            f"Keep rows where status != drop, qty >= {threshold}, and bonus >= penalty. "
+            "Sort remaining rows by tier rank gold>silver>bronze, then by "
+            "(qty + bonus - penalty) descending, then id ascending. "
+            "Set winner to the first id after sorting, or NONE if nothing remains. "
+            "Set ids to the first 4 remaining ids joined by |. "
+            "Set score to sum((qty + bonus - penalty) * tierWeight), where bronze=1, silver=2, gold=3."
+        )
+        return TestCase(
+            test_id=f"json_contract_extreme_{idx}",
+            family="json_contract_extreme",
+            prompt=prompt,
+            expected=expected,
+            source="dynamic",
+        )
+
+    def mk_dependency_schedule_extreme(idx: int) -> TestCase:
+        names = list("ABCDEFG")
+        tasks = []
+        for i, name in enumerate(names):
+            dep_count = 0 if i == 0 else rng.randint(0, min(2, i))
+            deps = sorted(rng.sample(names[:i], dep_count))
+            tasks.append(
+                {
+                    "name": name,
+                    "duration": rng.randint(1, 5),
+                    "deps": deps,
+                }
+            )
+
+        task_map = {task["name"]: task for task in tasks}
+        completed: list[str] = []
+        started: set[str] = set()
+        in_progress: list[tuple[int, str]] = []
+        time_cursor = 0
+
+        while len(completed) < len(tasks):
+            available = sorted(
+                task["name"]
+                for task in tasks
+                if task["name"] not in started
+                and all(dep in completed for dep in task["deps"])
+            )
+            while len(in_progress) < 2 and available:
+                task_name = available.pop(0)
+                started.add(task_name)
+                in_progress.append((time_cursor + task_map[task_name]["duration"], task_name))
+            in_progress.sort(key=lambda item: (item[0], item[1]))
+            next_time = in_progress[0][0]
+            time_cursor = next_time
+            finished_now = sorted(
+                task_name for end_time, task_name in in_progress if end_time == next_time
+            )
+            in_progress = [
+                item for item in in_progress if item[0] != next_time
+            ]
+            completed.extend(finished_now)
+
+        prompt_rows = "; ".join(
+            f"{task['name']} dur={task['duration']} deps={','.join(task['deps']) if task['deps'] else '-'}"
+            for task in tasks
+        )
+        prompt = (
+            "There are two identical workers. At time 0, repeatedly start the lexicographically "
+            "smallest available task on each free worker. A task becomes available only when all of "
+            "its prerequisites are finished. Tasks are non-preemptive. If multiple tasks finish at "
+            "the same time, record them in alphabetical order in the finish log. "
+            f"Tasks: {prompt_rows}. "
+            "Reply only as TOTAL|ORDER, where TOTAL is the final completion time and ORDER is the finish log."
+        )
+        return TestCase(
+            test_id=f"dependency_schedule_extreme_{idx}",
+            family="dependency_schedule_extreme",
+            prompt=prompt,
+            expected=f"{time_cursor}|{''.join(completed)}",
+            source="dynamic",
+        )
+
     standard_families = [
         mk_py_trace,
         mk_path,
@@ -800,6 +1051,10 @@ def build_dynamic_test_suite(
         mk_register_machine_extreme,
         mk_table_query_extreme,
         mk_fsm_extreme,
+        mk_stack_machine_extreme,
+        mk_window_scan_extreme,
+        mk_json_contract_extreme,
+        mk_dependency_schedule_extreme,
     ]
     if difficulty == "standard":
         families = standard_families
@@ -899,6 +1154,16 @@ def extract_responses_output(data: dict[str, Any]) -> str:
     ).strip()
 
 
+def list_output_item_types(data: dict[str, Any]) -> list[str]:
+    return [str(item.get("type")) for item in (data.get("output") or [])]
+
+
+def classify_response_issue(status: Any, output_text: str) -> str | None:
+    if status == "completed" and not output_text:
+        return "completed_but_no_final_answer"
+    return None
+
+
 def run_request(provider: ProviderConfig, prompt: str) -> dict[str, Any]:
     payload: dict[str, Any] = {
         "model": provider.model,
@@ -953,16 +1218,20 @@ def run_request(provider: ProviderConfig, prompt: str) -> dict[str, Any]:
     )
     output_reasoning = (usage.get("output_tokens_details") or {}).get("reasoning_tokens")
 
+    output_text = extract_responses_output(data)
+    status = data.get("status")
     row.update(
         {
-            "status": data.get("status"),
+            "status": status,
             "returned_model": data.get("model"),
             "returned_reasoning_effort": (data.get("reasoning") or {}).get("effort"),
             "returned_service_tier": data.get("service_tier"),
             "reasoning_tokens": completion_reasoning
             if isinstance(completion_reasoning, int)
             else output_reasoning,
-            "output_text": extract_responses_output(data),
+            "output_text": output_text,
+            "output_item_types": list_output_item_types(data),
+            "response_issue": classify_response_issue(status, output_text),
         }
     )
     return row
@@ -975,6 +1244,11 @@ def summarize(rows: list[dict[str, Any]], provider_names: list[str]) -> dict[str
         completed = [r for r in provider_rows if r.get("status") == "completed"]
         scored = [r for r in provider_rows if r.get("expected") is not None]
         scored_completed = [r for r in completed if r.get("expected") is not None]
+        issue_counts: dict[str, int] = {}
+        for row in provider_rows:
+            issue = row.get("response_issue")
+            if isinstance(issue, str) and issue:
+                issue_counts[issue] = issue_counts.get(issue, 0) + 1
         reasoning_tokens = [
             r["reasoning_tokens"]
             for r in completed
@@ -985,11 +1259,17 @@ def summarize(rows: list[dict[str, Any]], provider_names: list[str]) -> dict[str
         family_breakdown: dict[str, Any] = {}
         for family in families:
             fam_rows = [r for r in provider_rows if r["family"] == family]
+            family_issue_counts: dict[str, int] = {}
+            for row in fam_rows:
+                issue = row.get("response_issue")
+                if isinstance(issue, str) and issue:
+                    family_issue_counts[issue] = family_issue_counts.get(issue, 0) + 1
             family_breakdown[family] = {
                 "completed": sum(1 for r in fam_rows if r.get("status") == "completed"),
                 "correct": sum(1 for r in fam_rows if r.get("correct")),
                 "scored_total": sum(1 for r in fam_rows if r.get("expected") is not None),
                 "total": len(fam_rows),
+                "response_issues": family_issue_counts,
             }
 
         summary[name] = {
@@ -1022,6 +1302,7 @@ def summarize(rows: list[dict[str, Any]], provider_names: list[str]) -> dict[str
             "median_reasoning_tokens": int(statistics.median(reasoning_tokens))
             if reasoning_tokens
             else None,
+            "response_issues": issue_counts,
             "reasoning_efforts": sorted(
                 {str(r.get("returned_reasoning_effort")) for r in completed}
             ),

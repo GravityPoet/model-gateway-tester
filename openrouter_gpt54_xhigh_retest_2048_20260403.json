@@ -1,0 +1,552 @@
+{
+  "meta": {
+    "seed": 8357392311599877236,
+    "generated_tests": 20,
+    "selection": {
+      "difficulty": "extreme",
+      "generator_tasks_per_family": 7,
+      "generated_before_trim": 21,
+      "generated_after_trim": 20,
+      "drop_index": 13,
+      "dropped_test_id": "table_query_extreme_5",
+      "dropped_family": "table_query_extreme",
+      "selection_note": "Generated 21 extreme tasks from built-in generators, then deterministically dropped 1 to keep a fresh 20-question set without modifying project code."
+    },
+    "providers": [
+      {
+        "name": "OpenRouter openai/gpt-5.4 (xhigh, max_output_tokens=2048)",
+        "url": "https://openrouter.ai/api/v1/responses",
+        "api_key": "***redacted***",
+        "model": "openai/gpt-5.4",
+        "reasoning_mode": "nested",
+        "reasoning_effort": "xhigh",
+        "max_output_tokens": 2048,
+        "needs_user_agent": false
+      }
+    ],
+    "self_provider_name": null,
+    "self_answers_file": null,
+    "progress": {
+      "completed_tests": 20,
+      "total_tests": 20,
+      "completed_requests": 20,
+      "total_requests": 20,
+      "status": "completed"
+    },
+    "retest_goal": "Check whether raising max_output_tokens recovers final answers for OpenRouter openai/gpt-5.4 at xhigh.",
+    "target_issue": "completed_but_no_final_answer"
+  },
+  "summary": {
+    "OpenRouter openai/gpt-5.4 (xhigh, max_output_tokens=2048)": {
+      "total": 20,
+      "completed": 20,
+      "completion_rate_pct": 100.0,
+      "scored_total": 20,
+      "correct": 19,
+      "accuracy_scored_all_pct": 95.0,
+      "accuracy_scored_completed_pct": 95.0,
+      "avg_elapsed_ms": 13472.2,
+      "median_reasoning_tokens": 702,
+      "response_issues": {
+        "completed_but_no_final_answer": 1
+      },
+      "family_breakdown": {
+        "fsm_extreme": {
+          "completed": 7,
+          "correct": 7,
+          "scored_total": 7,
+          "total": 7,
+          "response_issues": {}
+        },
+        "register_machine_extreme": {
+          "completed": 7,
+          "correct": 6,
+          "scored_total": 7,
+          "total": 7,
+          "response_issues": {
+            "completed_but_no_final_answer": 1
+          }
+        },
+        "table_query_extreme": {
+          "completed": 6,
+          "correct": 6,
+          "scored_total": 6,
+          "total": 6,
+          "response_issues": {}
+        }
+      }
+    }
+  },
+  "leaderboard": [
+    {
+      "provider": "OpenRouter openai/gpt-5.4 (xhigh, max_output_tokens=2048)",
+      "completed": 20,
+      "completion_rate_pct": 100.0,
+      "correct": 19,
+      "accuracy_scored_all_pct": 95.0,
+      "avg_elapsed_ms": 13472.2,
+      "rank": 1
+    }
+  ],
+  "rows": [
+    {
+      "elapsed_ms": 23468,
+      "returncode": 0,
+      "status": "completed",
+      "returned_model": "openai/gpt-5.4-20260305",
+      "returned_reasoning_effort": "xhigh",
+      "returned_service_tier": "default",
+      "reasoning_tokens": 1985,
+      "output_text": "37272481",
+      "output_item_types": [
+        "reasoning",
+        "message"
+      ],
+      "response_issue": null,
+      "test": "register_machine_extreme_1",
+      "family": "register_machine_extreme",
+      "provider": "OpenRouter openai/gpt-5.4 (xhigh, max_output_tokens=2048)",
+      "expected": "37272481",
+      "correct": true,
+      "source": "dynamic",
+      "prompt_hash": "100c1328753775e6",
+      "prompt_metadata": {}
+    },
+    {
+      "elapsed_ms": 11159,
+      "returncode": 0,
+      "status": "completed",
+      "returned_model": "openai/gpt-5.4-20260305",
+      "returned_reasoning_effort": "xhigh",
+      "returned_service_tier": "default",
+      "reasoning_tokens": 516,
+      "output_text": "254",
+      "output_item_types": [
+        "reasoning",
+        "message"
+      ],
+      "response_issue": null,
+      "test": "table_query_extreme_1",
+      "family": "table_query_extreme",
+      "provider": "OpenRouter openai/gpt-5.4 (xhigh, max_output_tokens=2048)",
+      "expected": "254",
+      "correct": true,
+      "source": "dynamic",
+      "prompt_hash": "8907ee2e1bf7fe70",
+      "prompt_metadata": {}
+    },
+    {
+      "elapsed_ms": 10575,
+      "returncode": 0,
+      "status": "completed",
+      "returned_model": "openai/gpt-5.4-20260305",
+      "returned_reasoning_effort": "xhigh",
+      "returned_service_tier": "default",
+      "reasoning_tokens": 805,
+      "output_text": "B,22",
+      "output_item_types": [
+        "reasoning",
+        "message"
+      ],
+      "response_issue": null,
+      "test": "fsm_extreme_1",
+      "family": "fsm_extreme",
+      "provider": "OpenRouter openai/gpt-5.4 (xhigh, max_output_tokens=2048)",
+      "expected": "B,22",
+      "correct": true,
+      "source": "dynamic",
+      "prompt_hash": "25ec02d4a8a1794b",
+      "prompt_metadata": {}
+    },
+    {
+      "elapsed_ms": 19811,
+      "returncode": 0,
+      "status": "completed",
+      "returned_model": "openai/gpt-5.4-20260305",
+      "returned_reasoning_effort": "xhigh",
+      "returned_service_tier": "default",
+      "reasoning_tokens": 1459,
+      "output_text": "-394",
+      "output_item_types": [
+        "reasoning",
+        "message"
+      ],
+      "response_issue": null,
+      "test": "register_machine_extreme_2",
+      "family": "register_machine_extreme",
+      "provider": "OpenRouter openai/gpt-5.4 (xhigh, max_output_tokens=2048)",
+      "expected": "-394",
+      "correct": true,
+      "source": "dynamic",
+      "prompt_hash": "1987486adf48ba42",
+      "prompt_metadata": {}
+    },
+    {
+      "elapsed_ms": 6347,
+      "returncode": 0,
+      "status": "completed",
+      "returned_model": "openai/gpt-5.4-20260305",
+      "returned_reasoning_effort": "xhigh",
+      "returned_service_tier": "default",
+      "reasoning_tokens": 414,
+      "output_text": "198",
+      "output_item_types": [
+        "reasoning",
+        "message"
+      ],
+      "response_issue": null,
+      "test": "table_query_extreme_2",
+      "family": "table_query_extreme",
+      "provider": "OpenRouter openai/gpt-5.4 (xhigh, max_output_tokens=2048)",
+      "expected": "198",
+      "correct": true,
+      "source": "dynamic",
+      "prompt_hash": "43745d9b23bcf1a7",
+      "prompt_metadata": {}
+    },
+    {
+      "elapsed_ms": 7288,
+      "returncode": 0,
+      "status": "completed",
+      "returned_model": "openai/gpt-5.4-20260305",
+      "returned_reasoning_effort": "xhigh",
+      "returned_service_tier": "default",
+      "reasoning_tokens": 516,
+      "output_text": "A,26",
+      "output_item_types": [
+        "reasoning",
+        "message"
+      ],
+      "response_issue": null,
+      "test": "fsm_extreme_2",
+      "family": "fsm_extreme",
+      "provider": "OpenRouter openai/gpt-5.4 (xhigh, max_output_tokens=2048)",
+      "expected": "A,26",
+      "correct": true,
+      "source": "dynamic",
+      "prompt_hash": "76820c6d4255e522",
+      "prompt_metadata": {}
+    },
+    {
+      "elapsed_ms": 27773,
+      "returncode": 0,
+      "status": "completed",
+      "returned_model": "openai/gpt-5.4-20260305",
+      "returned_reasoning_effort": "xhigh",
+      "returned_service_tier": "default",
+      "reasoning_tokens": 2048,
+      "output_text": "",
+      "output_item_types": [
+        "reasoning"
+      ],
+      "response_issue": "completed_but_no_final_answer",
+      "test": "register_machine_extreme_3",
+      "family": "register_machine_extreme",
+      "provider": "OpenRouter openai/gpt-5.4 (xhigh, max_output_tokens=2048)",
+      "expected": "-941549",
+      "correct": false,
+      "source": "dynamic",
+      "prompt_hash": "b02411f3568cf058",
+      "prompt_metadata": {}
+    },
+    {
+      "elapsed_ms": 10231,
+      "returncode": 0,
+      "status": "completed",
+      "returned_model": "openai/gpt-5.4-20260305",
+      "returned_reasoning_effort": "xhigh",
+      "returned_service_tier": "default",
+      "reasoning_tokens": 513,
+      "output_text": "85",
+      "output_item_types": [
+        "reasoning",
+        "message"
+      ],
+      "response_issue": null,
+      "test": "table_query_extreme_3",
+      "family": "table_query_extreme",
+      "provider": "OpenRouter openai/gpt-5.4 (xhigh, max_output_tokens=2048)",
+      "expected": "85",
+      "correct": true,
+      "source": "dynamic",
+      "prompt_hash": "c88fb46fdb17aadd",
+      "prompt_metadata": {}
+    },
+    {
+      "elapsed_ms": 11550,
+      "returncode": 0,
+      "status": "completed",
+      "returned_model": "openai/gpt-5.4-20260305",
+      "returned_reasoning_effort": "xhigh",
+      "returned_service_tier": "default",
+      "reasoning_tokens": 635,
+      "output_text": "D,29",
+      "output_item_types": [
+        "reasoning",
+        "message"
+      ],
+      "response_issue": null,
+      "test": "fsm_extreme_3",
+      "family": "fsm_extreme",
+      "provider": "OpenRouter openai/gpt-5.4 (xhigh, max_output_tokens=2048)",
+      "expected": "D,29",
+      "correct": true,
+      "source": "dynamic",
+      "prompt_hash": "78f80ae548677c66",
+      "prompt_metadata": {}
+    },
+    {
+      "elapsed_ms": 22230,
+      "returncode": 0,
+      "status": "completed",
+      "returned_model": "openai/gpt-5.4-20260305",
+      "returned_reasoning_effort": "xhigh",
+      "returned_service_tier": "default",
+      "reasoning_tokens": 1692,
+      "output_text": "-653",
+      "output_item_types": [
+        "reasoning",
+        "message"
+      ],
+      "response_issue": null,
+      "test": "register_machine_extreme_4",
+      "family": "register_machine_extreme",
+      "provider": "OpenRouter openai/gpt-5.4 (xhigh, max_output_tokens=2048)",
+      "expected": "-653",
+      "correct": true,
+      "source": "dynamic",
+      "prompt_hash": "91d8dabbd7e60810",
+      "prompt_metadata": {}
+    },
+    {
+      "elapsed_ms": 11998,
+      "returncode": 0,
+      "status": "completed",
+      "returned_model": "openai/gpt-5.4-20260305",
+      "returned_reasoning_effort": "xhigh",
+      "returned_service_tier": "default",
+      "reasoning_tokens": 644,
+      "output_text": "331",
+      "output_item_types": [
+        "reasoning",
+        "message"
+      ],
+      "response_issue": null,
+      "test": "table_query_extreme_4",
+      "family": "table_query_extreme",
+      "provider": "OpenRouter openai/gpt-5.4 (xhigh, max_output_tokens=2048)",
+      "expected": "331",
+      "correct": true,
+      "source": "dynamic",
+      "prompt_hash": "4cfa41be35707444",
+      "prompt_metadata": {}
+    },
+    {
+      "elapsed_ms": 11422,
+      "returncode": 0,
+      "status": "completed",
+      "returned_model": "openai/gpt-5.4-20260305",
+      "returned_reasoning_effort": "xhigh",
+      "returned_service_tier": "default",
+      "reasoning_tokens": 849,
+      "output_text": "D,27",
+      "output_item_types": [
+        "reasoning",
+        "message"
+      ],
+      "response_issue": null,
+      "test": "fsm_extreme_4",
+      "family": "fsm_extreme",
+      "provider": "OpenRouter openai/gpt-5.4 (xhigh, max_output_tokens=2048)",
+      "expected": "D,27",
+      "correct": true,
+      "source": "dynamic",
+      "prompt_hash": "1ba4227606513b33",
+      "prompt_metadata": {}
+    },
+    {
+      "elapsed_ms": 13138,
+      "returncode": 0,
+      "status": "completed",
+      "returned_model": "openai/gpt-5.4-20260305",
+      "returned_reasoning_effort": "xhigh",
+      "returned_service_tier": "default",
+      "reasoning_tokens": 1034,
+      "output_text": "162",
+      "output_item_types": [
+        "reasoning",
+        "message"
+      ],
+      "response_issue": null,
+      "test": "register_machine_extreme_5",
+      "family": "register_machine_extreme",
+      "provider": "OpenRouter openai/gpt-5.4 (xhigh, max_output_tokens=2048)",
+      "expected": "162",
+      "correct": true,
+      "source": "dynamic",
+      "prompt_hash": "98243c368a708991",
+      "prompt_metadata": {}
+    },
+    {
+      "elapsed_ms": 9663,
+      "returncode": 0,
+      "status": "completed",
+      "returned_model": "openai/gpt-5.4-20260305",
+      "returned_reasoning_effort": "xhigh",
+      "returned_service_tier": "default",
+      "reasoning_tokens": 684,
+      "output_text": "C,14",
+      "output_item_types": [
+        "reasoning",
+        "message"
+      ],
+      "response_issue": null,
+      "test": "fsm_extreme_5",
+      "family": "fsm_extreme",
+      "provider": "OpenRouter openai/gpt-5.4 (xhigh, max_output_tokens=2048)",
+      "expected": "C,14",
+      "correct": true,
+      "source": "dynamic",
+      "prompt_hash": "778ac16d2fc42055",
+      "prompt_metadata": {}
+    },
+    {
+      "elapsed_ms": 15200,
+      "returncode": 0,
+      "status": "completed",
+      "returned_model": "openai/gpt-5.4-20260305",
+      "returned_reasoning_effort": "xhigh",
+      "returned_service_tier": "default",
+      "reasoning_tokens": 1092,
+      "output_text": "31602",
+      "output_item_types": [
+        "reasoning",
+        "message"
+      ],
+      "response_issue": null,
+      "test": "register_machine_extreme_6",
+      "family": "register_machine_extreme",
+      "provider": "OpenRouter openai/gpt-5.4 (xhigh, max_output_tokens=2048)",
+      "expected": "31602",
+      "correct": true,
+      "source": "dynamic",
+      "prompt_hash": "6dd417df2b29d921",
+      "prompt_metadata": {}
+    },
+    {
+      "elapsed_ms": 11784,
+      "returncode": 0,
+      "status": "completed",
+      "returned_model": "openai/gpt-5.4-20260305",
+      "returned_reasoning_effort": "xhigh",
+      "returned_service_tier": "default",
+      "reasoning_tokens": 578,
+      "output_text": "227",
+      "output_item_types": [
+        "reasoning",
+        "message"
+      ],
+      "response_issue": null,
+      "test": "table_query_extreme_6",
+      "family": "table_query_extreme",
+      "provider": "OpenRouter openai/gpt-5.4 (xhigh, max_output_tokens=2048)",
+      "expected": "227",
+      "correct": true,
+      "source": "dynamic",
+      "prompt_hash": "76ea8f90f7e971ef",
+      "prompt_metadata": {}
+    },
+    {
+      "elapsed_ms": 10572,
+      "returncode": 0,
+      "status": "completed",
+      "returned_model": "openai/gpt-5.4-20260305",
+      "returned_reasoning_effort": "xhigh",
+      "returned_service_tier": "default",
+      "reasoning_tokens": 721,
+      "output_text": "D,14",
+      "output_item_types": [
+        "reasoning",
+        "message"
+      ],
+      "response_issue": null,
+      "test": "fsm_extreme_6",
+      "family": "fsm_extreme",
+      "provider": "OpenRouter openai/gpt-5.4 (xhigh, max_output_tokens=2048)",
+      "expected": "D,14",
+      "correct": true,
+      "source": "dynamic",
+      "prompt_hash": "de5d6ed5f92e216d",
+      "prompt_metadata": {}
+    },
+    {
+      "elapsed_ms": 21559,
+      "returncode": 0,
+      "status": "completed",
+      "returned_model": "openai/gpt-5.4-20260305",
+      "returned_reasoning_effort": "xhigh",
+      "returned_service_tier": "default",
+      "reasoning_tokens": 1552,
+      "output_text": "-897",
+      "output_item_types": [
+        "reasoning",
+        "message"
+      ],
+      "response_issue": null,
+      "test": "register_machine_extreme_7",
+      "family": "register_machine_extreme",
+      "provider": "OpenRouter openai/gpt-5.4 (xhigh, max_output_tokens=2048)",
+      "expected": "-897",
+      "correct": true,
+      "source": "dynamic",
+      "prompt_hash": "a6346eaf15937a0b",
+      "prompt_metadata": {}
+    },
+    {
+      "elapsed_ms": 6099,
+      "returncode": 0,
+      "status": "completed",
+      "returned_model": "openai/gpt-5.4-20260305",
+      "returned_reasoning_effort": "xhigh",
+      "returned_service_tier": "default",
+      "reasoning_tokens": 332,
+      "output_text": "90",
+      "output_item_types": [
+        "reasoning",
+        "message"
+      ],
+      "response_issue": null,
+      "test": "table_query_extreme_7",
+      "family": "table_query_extreme",
+      "provider": "OpenRouter openai/gpt-5.4 (xhigh, max_output_tokens=2048)",
+      "expected": "90",
+      "correct": true,
+      "source": "dynamic",
+      "prompt_hash": "793cc72260419926",
+      "prompt_metadata": {}
+    },
+    {
+      "elapsed_ms": 7578,
+      "returncode": 0,
+      "status": "completed",
+      "returned_model": "openai/gpt-5.4-20260305",
+      "returned_reasoning_effort": "xhigh",
+      "returned_service_tier": "default",
+      "reasoning_tokens": 516,
+      "output_text": "A,2",
+      "output_item_types": [
+        "reasoning",
+        "message"
+      ],
+      "response_issue": null,
+      "test": "fsm_extreme_7",
+      "family": "fsm_extreme",
+      "provider": "OpenRouter openai/gpt-5.4 (xhigh, max_output_tokens=2048)",
+      "expected": "A,2",
+      "correct": true,
+      "source": "dynamic",
+      "prompt_hash": "afd317463ee6308b",
+      "prompt_metadata": {}
+    }
+  ]
+}
