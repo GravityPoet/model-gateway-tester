@@ -19,7 +19,7 @@ def parse_args() -> argparse.Namespace:
         description="Fresh fair benchmark for two to six models on OpenAI-compatible endpoints."
     )
     parser.add_argument("--seed", type=int, default=None)
-    parser.add_argument("--total-tests", type=int, default=20)
+    parser.add_argument("--total-tests", type=int, default=30)
     parser.add_argument("--api-key", type=str, required=True)
     parser.add_argument(
         "--base-url",
