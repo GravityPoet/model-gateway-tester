@@ -60,8 +60,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--tasks-per-family",
         type=int,
-        default=10,
-        help="Number of dynamic private variants to generate per family. Use 0 for shadow-only mode.",
+        default=3,
+        help="Number of dynamic private variants to generate per family. With the public default extreme suite, 3 means a 30-question run. Use 0 for shadow-only mode.",
     )
     parser.add_argument(
         "--difficulty",

@@ -53,7 +53,7 @@ Python 3.11+ is recommended.
 python3 -m py_compile model_gateway_tester.py
 ```
 
-Run a default hard audit:
+Run the public default benchmark:
 
 ```bash
 python3 model_gateway_tester.py \
@@ -133,19 +133,33 @@ Example JSONL rows:
 
 ## Default Settings
 
-The defaults are tuned for stronger audits:
+The public defaults are tuned for stronger separation in an open repository:
 
 - `difficulty=extreme`
-- `tasks_per_family=10`
+- `tasks_per_family=3`
 - `max_output_tokens=1024`
 - fresh random seed every run unless you pass `--seed`
+
+With the current 10-family extreme suite, the default main benchmark is a fresh 30-question run.
+
+Low-difficulty runs are now considered `smoke` or `debug` workflows, not the default benchmark.
+
+Smoke example:
+
+```bash
+python3 model_gateway_tester.py \
+  --openrouter-key "YOUR_OPENROUTER_KEY" \
+  --difficulty hard \
+  --tasks-per-family 1 \
+  --max-output-tokens 512
+```
 
 If you want the strongest built-in separator for top-tier models, use `extreme`:
 
 ```bash
 python3 model_gateway_tester.py \
   --difficulty extreme \
-  --tasks-per-family 5
+  --tasks-per-family 3
 ```
 
 Use this mode when even `very-hard` is no longer enough to split the top models apart.

@@ -17,14 +17,14 @@ import model_gateway_tester as mgt
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Run one shared extreme-20 benchmark across four gateway routes and an optional manual self-entry."
+        description="Run one shared fresh extreme benchmark across four gateway routes and an optional manual self-entry."
     )
     parser.add_argument("--seed", type=int, default=None)
     parser.add_argument(
         "--total-tests",
         type=int,
-        default=20,
-        help="How many extreme built-in tests to generate for the shared benchmark.",
+        default=30,
+        help="How many extreme built-in tests to generate for the shared benchmark. Public default is 30.",
     )
     parser.add_argument("--openrouter-key", type=str, required=True)
     parser.add_argument("--longent-key", type=str, required=True)

@@ -18,6 +18,28 @@ Use the same:
 
 Do not compare runs if one model gets a larger `max_output_tokens` than the others unless the report is explicitly labeled as a configuration-tuning run rather than a fair benchmark.
 
+## Public Default
+
+For a public repository, the default benchmark should assume that others can inspect:
+
+- the generator logic
+- the family structure
+- the scoring rules
+- past result files
+
+So the public default should be:
+
+- `difficulty=extreme`
+- fresh random seed
+- the largest current built-in family mix
+- enough questions to avoid single-family domination
+
+In this repo, that means:
+
+- default main benchmark = fresh 30-question `extreme` run
+
+Treat low-difficulty or tiny runs as `smoke` / `debug`, not as the headline benchmark.
+
 ## Current Suite Shape
 
 The built-in `extreme` generator now mixes ten structured-but-dynamic families:
@@ -48,6 +70,17 @@ Use `longent_budget_sweep.py` to hold the test set fixed and vary only `max_outp
 ### Mixed-provider fair run
 
 Use `fiveway_extreme20.py` when comparing multiple providers under one shared fresh suite.
+
+### Smoke / Debug run
+
+Use a reduced command only for connectivity checks, schema validation, or fast route triage:
+
+```bash
+python3 model_gateway_tester.py \
+  --difficulty hard \
+  --tasks-per-family 1 \
+  --max-output-tokens 512
+```
 
 ## Reporting Rules
 
