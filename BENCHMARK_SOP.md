@@ -121,4 +121,4 @@ To improve separation even further, add more dynamic families beyond the current
 - stronger adversarial instruction traps
 - hybrid tasks that combine 3+ substeps
 
-Do that in [model_gateway_tester.py]($HOME/Tools/model-gateway-tester/model_gateway_tester.py), then reuse the existing harness scripts without changing the scoring pipeline.
+Do that in [model_gateway_tester.py](./model_gateway_tester.py), then reuse the existing harness scripts without changing the scoring pipeline.

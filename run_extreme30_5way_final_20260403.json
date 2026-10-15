@@ -53,7 +53,7 @@
       }
     ],
     "self_provider_name": "Codex (this session)",
-    "self_answers_file": "$HOME/Tools/model-gateway-tester/run_extreme30_5way_self_answers_20260403.json",
+    "self_answers_file": "./run_extreme30_5way_self_answers_20260403.json",
     "progress": {
       "completed_tests": 30,
       "total_tests": 30,
